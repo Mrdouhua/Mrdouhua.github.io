@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-  
-  <title>TCP与IP学习 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TCP&#x2F;IP协议定义TCP&#x2F;IP（Transmission Control Protocol&#x2F;Internet Protocol，传输控制协议&#x2F;网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP&#x2F;IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP&#x2F;IP协议中TCP协议和IP协议最具代表性，所以被称为TCP">
+    
+
+    <title>
+      TCP与IP学习 | Hexo 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="John Doe">
+    
+    
+
+    <meta name="description" content="TCP&#x2F;IP协议定义TCP&#x2F;IP（Transmission Control Protocol&#x2F;Internet Protocol，传输控制协议&#x2F;网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP&#x2F;IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP&#x2F;IP协议中TCP协议和IP协议最具代表性，所以被称为TCP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP与IP学习">
+<meta property="og:title" content="TCP与IP学习 | Hexo">
 <meta property="og:url" content="http://yoursite.com/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="TCP&#x2F;IP协议定义TCP&#x2F;IP（Transmission Control Protocol&#x2F;Internet Protocol，传输控制协议&#x2F;网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP&#x2F;IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP&#x2F;IP协议中TCP协议和IP协议最具代表性，所以被称为TCP">
@@ -22,77 +31,160 @@
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://static.runoob.com/images/mix/v2-854e3df8ea850c977c30cb1deb1f64db_r.jpg">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+    
+<link rel="stylesheet" href="/css/highlight.css">
 
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
         
-          <a class="main-nav-link" href="/">Home</a>
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Hexo</a></h1>
+        <hr class="panel-cover__divider" />
+
         
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">关于</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archive" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
       </div>
+
     </div>
+
+    <div class="panel-cover--overlay"></div>
   </div>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-TCP与IP学习" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-06-29T13:13:12.849Z" itemprop="datePublished">2020-06-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      TCP与IP学习
-    </h1>
-  
 
-      </header>
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="TCP-IP协议定义"><a href="#TCP-IP协议定义" class="headerlink" title="TCP/IP协议定义"></a>TCP/IP协议定义</h2><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议</p>
+    <h1 class="post-title">TCP与IP学习</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-29" class="post-meta__date date">2020-06-29</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="TCP-IP协议定义"><a href="#TCP-IP协议定义" class="headerlink" title="TCP/IP协议定义"></a>TCP/IP协议定义</h2><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议</p>
 <p>TCP/IP 通信协议是对计算机必须遵守的规则的描述，只有遵守这些规则，计算机之间才能进行通信。</p>
 <h2 id="OSI七层模型-网络七层协议"><a href="#OSI七层模型-网络七层协议" class="headerlink" title="OSI七层模型### 网络七层协议"></a>OSI七层模型### 网络七层协议</h2><p>物理层 数据链路层 网络层 传输层 会话层 表示层 应用层<br><img src="https://static.runoob.com/images/mix/v2-854e3df8ea850c977c30cb1deb1f64db_r.jpg" alt="image"></p>
 <p>为了简化复杂度，所以在TCP/IP协议中，它们被简化为了四个层次。</p>
@@ -141,130 +233,64 @@
 </ul>
 <h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://blog.csdn.net/nice07/article/details/83652753" target="_blank" rel="noopener">https://blog.csdn.net/nice07/article/details/83652753</a><br><a href="https://www.runoob.com/tcpip/tcpip-email.html" target="_blank" rel="noopener">https://www.runoob.com/tcpip/tcpip-email.html</a>  </p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/" data-id="ckc0kcsz20003ukgbcpal35sw" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          常用markdown语法
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">http基础知识，你真的都会了吗</div>
-    </a>
-  
-</nav>
+  </section>
 
-  
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
 </article>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
 
-  
-    
+            <footer class="footer">
 
-  
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno" target="_blank" rel="noopener">Huno</a></span>
     
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/">HTTP客户端识别与Cookie机制</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/">vue-hooks学习笔记（含源码解读）</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/">常用markdown语法</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/">TCP与IP学习</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/">http基础知识，你真的都会了吗</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
 </footer>
+        </div>
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
 
 
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    
 
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
 
 
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
 </body>
 </html>
