@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>vue-hooks学习笔记（含源码解读） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景hooks 百度翻译为钩子，不要把 Hooks 和 Vue 的 生命周期钩子（Lifecycle Hooks） 弄混了，Hooks 是 React 在 V16.7.0-alpha 版本中引入的，而且几天后 Vue 发布了其概念验证版本。最近尤大发布了一个最新的npm包Hook是react中得一项新功能提案，可以让开发人员在不编写Class的情况下使用状态和其他React功能。 定义Hooks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-hooks学习笔记（含源码解读）">
+<meta property="og:url" content="http://yoursite.com/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="背景hooks 百度翻译为钩子，不要把 Hooks 和 Vue 的 生命周期钩子（Lifecycle Hooks） 弄混了，Hooks 是 React 在 V16.7.0-alpha 版本中引入的，而且几天后 Vue 发布了其概念验证版本。最近尤大发布了一个最新的npm包Hook是react中得一项新功能提案，可以让开发人员在不编写Class的情况下使用状态和其他React功能。 定义Hooks">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-29T13:14:47.613Z">
+<meta property="article:modified_time" content="2020-06-29T13:14:57.591Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vue-hooks学习笔记（含源码解读）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/" class="article-date">
+  <time datetime="2020-06-29T13:14:47.613Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vue-hooks学习笔记（含源码解读）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hooks 百度翻译为钩子，不要把 Hooks 和 Vue 的 生命周期钩子（Lifecycle Hooks） 弄混了，Hooks 是 React 在 V16.7.0-alpha 版本中引入的，而且几天后 Vue 发布了其概念验证版本。<br>最近尤大发布了一个最新的npm包<br>Hook是react中得一项新功能提案，可以让开发人员在不编写Class的情况下使用状态和其他React功能。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Hooks 主要是对模式的复用提供了一种更明确的思路 —— 避免重写组件本身，并允许有状态逻辑的不同部分能无缝地进行协同工作。  </p>
+<p>无状态函数式组件也非常受欢迎，但由于它们只能单纯地渲染，所以它们的用途仅限于展示任务。  </p>
+<p>Hooks 允许我们使用函数调用来定义组件的有状态逻辑，从而解决这些问题。这些函数调用变得更具有组合性、可复用性，并且允许我们在使用函数式组件的同时能够访问和维护状态。  </p>
+<h2 id="为什么-Vue-中需要-Hooks？"><a href="#为什么-Vue-中需要-Hooks？" class="headerlink" title="为什么 Vue 中需要 Hooks？"></a>为什么 Vue 中需要 Hooks？</h2><p>Hooks 在 Vue 中必须提供什么。这似乎是一个不需要解决的问题。毕竟，类并不是 Vue 主要使用的模式。Vue 提供无状态函数式组件（如果需要它们），但为什么我们需要在函数式组件中携带状态呢？我们有 mixins 用于组合可以在多个组件复用的相同逻辑。问题解决了。  </p>
+<h2 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h2><p>h函数是createElement，生产一个VNode节点，即html DOM节点</p>
+<p> createElement(也就是h)是vuejs里的一个函数。这个函数的作用就是生成一个 VNode节点，render 函数得到这个 VNode 节点之后，返回给 Vue.js 的 mount 函数，渲染成真实 DOM 节点，并挂载到根节点上。</p>
+<p> 1、useEffect 做了什么？  </p>
+<p>通过使用这个 Hook，通知 React 组件需要在渲染后执行什么操作。React 将记住传递的 function（把这个 function 成为 “effect”），并在执行 DOM 更新后调用这个 function。在这个效果中，主要的功能仍旧是设置 document.title,但是也可以执行数据获取，或者是调用其他的命令式的 API。</p>
+<p>isMounting:是否为首次渲染  </p>
+<p>vue options上声明的几个本地变量：</p>
+<ul>
+<li>_state：放置响应式数据</li>
+<li>_refsStore：放置非响应式数据，且返回引用类型</li>
+<li>_effectStore：存放副作用逻辑和清理逻辑</li>
+<li>_computedStore：存放计算属性</li>
+</ul>
+<p>vue-hooks暴露了一个hooks函数，开发者在入口Vue.use(hooks)之后，可以将内部逻辑混入所有的子组件。这样，我们就可以在SFC组件中使用hooks啦。  </p>
+<p>Hooks 和 mixins 之间的主要区别之一是 Hooks 实际上可以互相传值<br>_vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom<br>Hooks的思路是将一个组件拆分为较小的函数，而不是基于生命周期方法强制拆分。<br>seEffect提供了类似于 componentDidMount等生命周期钩子的功能 vue里面的mounted  </p>
+<p>hooks的方法 useData useState只能在hooks或者widthHooks中使用  </p>
+<p>hooks中的数据是根据useState出现的顺序来定的  </p>
+<p>借助withHooks，我们可以发挥hooks的作用，但牺牲来很多vue的特性，比如props，attrs,components等。  </p>
+<p>所谓的 “Effect” 对应的概念叫做 “side effect”。指的是状态改变时，相关的远端数据异步请求、事件绑定、改变 DOM 等；因为此类操作要么会引发其他组件的变化，要么在渲染周期中并不能立刻完成，所以就称其为“副作用”。   </p>
+<p>REACT<br>useEffect 能够在组件 render 之后进行不同类型的副作用。某些 effect 可能需要清理，因此可以在 effect 中返回一个 function：  </p>
+<p>参考文档<br>react<br><a href="http://www.ptbird.cn/react-hoot-useEffect.html" target="_blank" rel="noopener">http://www.ptbird.cn/react-hoot-useEffect.html</a><br>vue<br><a href="https://www.jianshu.com/p/f1e6597b19de" target="_blank" rel="noopener">https://www.jianshu.com/p/f1e6597b19de</a> 简书<br><a href="http://www.sohu.com/a/321909448_500651" target="_blank" rel="noopener">http://www.sohu.com/a/321909448_500651</a>  精度vue-hooks<br><a href="https://juejin.im/post/5c7784d5f265da2de713629c" target="_blank" rel="noopener">https://juejin.im/post/5c7784d5f265da2de713629c</a>  掘金<br><a href="https://mp.weixin.qq.com/s/p2f3jsko91iGhrbtjgmt7g?utm_medium=hao.caibaojian.com&amp;utm_source=hao.caibaojian.com" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/p2f3jsko91iGhrbtjgmt7g?utm_medium=hao.caibaojian.com&amp;utm_source=hao.caibaojian.com</a>  云前端<br><a href="https://1byte.io/react-hooks/" target="_blank" rel="noopener">https://1byte.io/react-hooks/</a>   react<br><a href="https://blog.csdn.net/liuyingv8/article/details/84068075" target="_blank" rel="noopener">https://blog.csdn.net/liuyingv8/article/details/84068075</a>  react   30分钟  </p>
+<h3 id="传统vue组件的缺点"><a href="#传统vue组件的缺点" class="headerlink" title="传统vue组件的缺点"></a>传统vue组件的缺点</h3><ul>
+<li>跨组件代码难以复用</li>
+<li>大组件，维护困难，颗粒度不好控制，细粒度划分时，组件嵌套存层次太深-影响性能</li>
+<li>类组件，this不可控，逻辑分散，不容易理解</li>
+<li>mixins具有副作用，逻辑互相嵌套，数据来源不明，且不能互相消费 </li>
+</ul>
+<p>Q:<br>1，currentInstance是如何记录当前实例的<br>当前hooks文件的this就是当前的vue实例，将this赋值给currentInstance，然后将_effectStore等赋值给当前vue实例即可  </p>
+<p>2，currentInstance是如何成为proxy对象的  未知<br>currentInstance为当前vue实例，this即为proxy对象  </p>
+<p>3，hooks如何解决minix的问题的  </p>
+<ul>
+<li>数据消费<br>hooks能够方位当前vue实例的数据，可以相互消费  </li>
+<li>数据来源<br>hooks为我们手动调用的，所以数据来源为哪里就显然易见了  </li>
+</ul>
+<p>4，beforeMount里面，将currentInstance赋值了又置为空<br>赋值后，触发了render函数，注册了事件，置空当前变量  </p>
+<p>5，reder时，h的两次的用义<br>foo函数中的h函数是为了将jsx转为option对象，第二个h函数是为了option对象转为虚拟dom  </p>
+<p>6，id递增是为了每次获取新值？<br>vue-hooks将数据的获取与设置以id来代替，访问id即可得到映射的值，每个vue实例中的数据所对应的id是固定的  </p>
+<p>7， currentInstance.$on(‘hook:mounted’）的emit在哪里<br>vue源码支持，详见截图  </p>
+<p>8，hooks是否能够生命data或者computed,props<br>能访问，是否能定义还未知<br>不需要定义，直接在vue实例中的hooks钩子中return即可，template就能</p>
+<p>mixins混入的问题是什么？vue-hooks是怎么解决其问题的<br>mixins 不能相互消费和使用状态，但 Hooks 可以。<br>hooks的用法？  </p>
+<p>9，什么时候会多次渲染  </p>
+<p>10，hooks钩子在哪个生命周期后面执行<br>beforeMount</p>
+<p>11，不能放在条件或循环中  </p>
+<ul>
+<li>对 useState() 的调用次数必须是一样的。</li>
+<li>与各状态对应的 useState()的调用顺序是一样的。  </li>
+</ul>
+<p>12，自定义hooks是什么，解决什么问题，怎么使用，会有什么问题？  </p>
+<p>13，不全局使用vue-hooks，只在相应的hooks文件import可以吗？<br>不行，withHooks依旧是返回一个vue component的配置项options，后续的hooks相关的属性都挂载在本地提供的options上。  </p>
+<p>14，不能申明相同的属性_state，会被覆盖  </p>
+<h3 id="vue-hooks解决的问题"><a href="#vue-hooks解决的问题" class="headerlink" title="vue-hooks解决的问题"></a>vue-hooks解决的问题</h3><ul>
+<li>实现了mixins的功能，并且解决了mixins的两个问题<ul>
+<li>允许相互传递状态</li>
+<li>明确指出了逻辑来自哪里<br>使用 Hooks，函数的返回值会记录消费的值。</li>
+</ul>
+</li>
+<li>vue-hooks是简化组件定义、复用状态逻辑的一种最新尝试，且结合 Vue 实例的特点提供了适用的 Hooks</li>
+</ul>
+<p>hooks.js中的this为当前vue实例  </p>
+<p>react-hooks<br>hooks只能出现在函数作用域的顶级，不能出现在条件语句、循环语句中、嵌套函数中。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>withHooks 返回一个包装过的 Vue 实例配置</p>
+<p>hooks 以 mixin 的形式发挥作用，注入两个生命周期</p>
+<p>用模块局部变量 currentInstance 记录了 Hooks 生效的 Vue 实例  </p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>withHooks为vue组件提供了hooks+VNode，使用方式如下：</p>
+<p>withHooks 返回一个包装过的 Vue 实例配置</p>
+<ul>
+<li>Vue式钩子  </li>
+<li>在普通Vue组件中的用法</li>
+</ul>
+<p>使用注意点<br>如果 useState 被包裹在 condition 中，那每次执行的下标就可能对不上，导致 useState 导出的 setter 更新错数据。</p>
+<h3 id="源码解读-1"><a href="#源码解读-1" class="headerlink" title="源码解读"></a>源码解读</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line">let currentInstance &#x3D; null &#x2F;&#x2F;缓存当前的vue实例</span><br><span class="line">let isMounting &#x3D; false &#x2F;&#x2F; render是否为首次渲染</span><br><span class="line">let callIndex &#x3D; 0 &#x2F;&#x2F; 当前数据对应的索引,当往options上挂载属性时，使用callIndex作为唯一当索引标识</span><br><span class="line"></span><br><span class="line">function ensureCurrentInstance() &#123; &#x2F;&#x2F; 是否有实例</span><br><span class="line">  if (!currentInstance) &#123;</span><br><span class="line">    &#x2F;&#x2F; 无效的挂钩调用：只能在传递给withhooks的函数中调用挂钩</span><br><span class="line">    throw new Error(</span><br><span class="line">      &#96;invalid hooks call: hooks can only be called in a function passed to withHooks.&#96;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useState(initial) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const state &#x3D; currentInstance.$data._state</span><br><span class="line">  &#x2F;&#x2F; 通过闭包提供了一个更新器updater</span><br><span class="line">  const updater &#x3D; newValue &#x3D;&gt; &#123;</span><br><span class="line">    state[id] &#x3D; newValue</span><br><span class="line">  &#125;</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$set(state, id, initial)</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 下一次的render过程，不会在重新使用$set初始化</span><br><span class="line">  return [state[id], updater]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 负责副作用处理和清理逻辑</span><br><span class="line">&#x2F;&#x2F; 这里的副作用可以理解为可以根据依赖选择性的执行的操作</span><br><span class="line">&#x2F;&#x2F; 没必要每次re-render都执行，比如dom操作，网络请求等。</span><br><span class="line">&#x2F;&#x2F; 而这些操作可能会导致一些副作用，比如需要清除dom监听器，清空引用等等。</span><br><span class="line">export function useEffect(rawEffect, deps) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 初始化时，声明了清理函数和副作用函数，并将effect的current指向当前的副作用逻辑，</span><br><span class="line">  &#x2F;&#x2F; 在mounted阶段调用一次副作用函数，将返回值当成清理逻辑保存。</span><br><span class="line">  &#x2F;&#x2F; 同时根据依赖来判断是否在updated阶段再次调用副作用函数。</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    const cleanup &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">      const &#123; current &#125; &#x3D; cleanup</span><br><span class="line">      if (current) &#123;</span><br><span class="line">        current()</span><br><span class="line">        cleanup.current &#x3D; null</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    const effect &#x3D; function() &#123;</span><br><span class="line">      const &#123; current &#125; &#x3D; effect</span><br><span class="line">      if (current) &#123;</span><br><span class="line">        &#x2F;&#x2F; 将返回值当成清理逻辑保存</span><br><span class="line">        cleanup.current &#x3D; current.call(this)</span><br><span class="line">        effect.current &#x3D; null</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 将effect的current指向当前的副作用逻辑，在mounted阶段调用一次副作用函数</span><br><span class="line">    effect.current &#x3D; rawEffect</span><br><span class="line"></span><br><span class="line">    currentInstance._effectStore[id] &#x3D; &#123;</span><br><span class="line">      effect,</span><br><span class="line">      cleanup,</span><br><span class="line">      deps</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; \vue-dev\src\core\instance\lifecycle.js</span><br><span class="line">    currentInstance.$on(&#39;hook:mounted&#39;, effect)</span><br><span class="line">    currentInstance.$on(&#39;hook:destroyed&#39;, cleanup)</span><br><span class="line">    if (!deps || deps.length &gt; 0) &#123;</span><br><span class="line">      currentInstance.$on(&#39;hook:updated&#39;, effect)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F; 非首次渲染时，会根据deps依赖来判断是否需要再次调用副作用函数，</span><br><span class="line">    &#x2F;&#x2F; 需要再次执行时，先清除上一次render产生的副作用，</span><br><span class="line">    &#x2F;&#x2F; 并将副作用函数的current指向最新的副作用逻辑，等待updated阶段调用。</span><br><span class="line">    const record &#x3D; currentInstance._effectStore[id]</span><br><span class="line">    const &#123; effect, cleanup, deps: prevDeps &#x3D; [] &#125; &#x3D; record</span><br><span class="line">    record.deps &#x3D; deps</span><br><span class="line">    if (!deps || deps.some((d, i) &#x3D;&gt; d !&#x3D;&#x3D; prevDeps[i])) &#123;</span><br><span class="line">      cleanup()</span><br><span class="line">      effect.current &#x3D; rawEffect</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; f初始化会返回一个携带current的引用，current指向初始化的值</span><br><span class="line">export function useRef(initial) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const &#123; _refsStore: refs &#125; &#x3D; currentInstance</span><br><span class="line">  return isMounting ? (refs[id] &#x3D; &#123; current: initial &#125;) : refs[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 挂载一个响应式数据，但是没有提供更新器</span><br><span class="line">export function useData(initial) &#123;</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const state &#x3D; currentInstance.$data._state</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$set(state, id, initial)</span><br><span class="line">  &#125;</span><br><span class="line">  return state[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; useEffect依赖传[]时，副作用函数只在mounted阶段调用。</span><br><span class="line">export function useMounted(fn) &#123;</span><br><span class="line">  useEffect(fn, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; useEffect依赖传[]且存在返回函数，返回函数会被当作清理逻辑在destroyed调用。</span><br><span class="line">export function useDestroyed(fn) &#123;</span><br><span class="line">  useEffect(() &#x3D;&gt; fn, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果deps固定不变，传入的useEffect会在mounted和updated阶段各执行一次，</span><br><span class="line">&#x2F;&#x2F; 这里借助useRef声明一个持久化的变量，来跳过mounted阶段。</span><br><span class="line">export function useUpdated(fn, deps) &#123;</span><br><span class="line">  const isMount &#x3D; useRef(true)</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    if (isMount.current) &#123;</span><br><span class="line">      isMount.current &#x3D; false</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return fn()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, deps)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useWatch(getter, cb, options) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  &#x2F;&#x2F; 加了一个是否初次渲染判断，防止re-render产生多余Watcher观察者。</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$watch(getter, cb, options)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useComputed(getter) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const store &#x3D; currentInstance._computedStore</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    &#x2F;&#x2F; 先会计算一次依赖值并缓存</span><br><span class="line">    store[id] &#x3D; getter()</span><br><span class="line">    &#x2F;&#x2F; 调用$watch来观察依赖属性变化，并更新对应的缓存值。</span><br><span class="line">    currentInstance.$watch(getter, val &#x3D;&gt; &#123;</span><br><span class="line">      store[id] &#x3D; val</span><br><span class="line">    &#125;, &#123; sync: true &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  return store[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function withHooks(render) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        _state: &#123;&#125;  &#x2F;&#x2F; 不能申明相同的属性_state，会被覆盖</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;</span><br><span class="line">      this._effectStore &#x3D; &#123;&#125;</span><br><span class="line">      this._refsStore &#x3D; &#123;&#125;</span><br><span class="line">      this._computedStore &#x3D; &#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render(h) &#123;</span><br><span class="line">      callIndex &#x3D; 0</span><br><span class="line">      currentInstance &#x3D; this &#x2F;&#x2F; 将当前的</span><br><span class="line">      isMounting &#x3D; !this._vnode &#x2F;&#x2F; _vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom,isMounting除了控制内部数据初始化的阶段外，还能防止重复re-render</span><br><span class="line">      const ret &#x3D; render(h, this.$attrs, this.$props) &#x2F;&#x2F; 传入了attrs和$props作为入参，且在渲染完当前组件后</span><br><span class="line">      currentInstance &#x3D; null &#x2F;&#x2F; 重置全局变量，以备渲染下个组件。</span><br><span class="line">      return ret</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function hooks (Vue) &#123;</span><br><span class="line">  Vue.mixin(&#123; &#x2F;&#x2F; 换入两个生命周期</span><br><span class="line">    beforeCreate() &#123;</span><br><span class="line">      const &#123; hooks, data &#125; &#x3D; this.$options</span><br><span class="line">      if (hooks) &#123;</span><br><span class="line">        this._effectStore &#x3D; &#123;&#125;</span><br><span class="line">        this._refsStore &#x3D; &#123;&#125;</span><br><span class="line">        this._computedStore &#x3D; &#123;&#125;</span><br><span class="line">        this.$options.data &#x3D; function () &#123;</span><br><span class="line">          const ret &#x3D; data ? data.call(this) : &#123;&#125;</span><br><span class="line">          ret._state &#x3D; &#123;&#125; &#x2F;&#x2F; 重置_state属性</span><br><span class="line">          return ret</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    beforeMount() &#123;</span><br><span class="line">      const &#123; hooks, render &#125; &#x3D; this.$options</span><br><span class="line">      if (hooks &amp;&amp; render) &#123;</span><br><span class="line">        this.$options.render &#x3D; function(h) &#123;</span><br><span class="line">          callIndex &#x3D; 0</span><br><span class="line">          currentInstance &#x3D; this</span><br><span class="line">          isMounting &#x3D; !this._vnode &#x2F;&#x2F; _vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom</span><br><span class="line">          const hookProps &#x3D; hooks(this.$props) &#x2F;&#x2F; 调用hooks方法，将return的字段放到实例本身上，即可得到响应数据</span><br><span class="line">          Object.assign(this._self, hookProps)</span><br><span class="line">          const ret &#x3D; render.call(this, h)</span><br><span class="line">          currentInstance &#x3D; null</span><br><span class="line">          return ret</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/" data-id="ckc0jvy4b0004psgb90izb39p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HTTP客户端识别与Cookie机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">常用markdown语法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/">HTTP客户端识别与Cookie机制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/">vue-hooks学习笔记（含源码解读）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/">常用markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/">TCP与IP学习</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/">http基础知识，你真的都会了吗</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

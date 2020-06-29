@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-HTTP客户端识别与Cookie机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2020-06-29T13:15:25.047Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/">HTTP客户端识别与Cookie机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>HTTP识别用户的几种技巧</p>
+<ul>
+<li>承载用户身份信息的HTTP首部</li>
+<li>客户端IP地址跟踪，通过用户的IP地址对其进行识别</li>
+<li>用户登录，用认证方式识别用户</li>
+<li>胖URL，一种在URL中潜入识别信息的技术</li>
+<li>cookie，一种强大高效的持久身份识别技术</li>
+</ul>
+<h2 id="一，承载用户相关信息的HTTP首部"><a href="#一，承载用户相关信息的HTTP首部" class="headerlink" title="一，承载用户相关信息的HTTP首部"></a>一，承载用户相关信息的HTTP首部</h2><blockquote>
+</blockquote>
+<ul>
+<li>from 用户的email地址<br>少用</li>
+<li>user-agent 用户的浏览器软件<br>将用户所用的浏览器信息告知服务器</li>
+<li>referer 用户是从这个页面跳转过来的<br>提供用户来源页的URL</li>
+<li>anthorization 用户名和密码 </li>
+<li>client-ip 客户端ip </li>
+<li>x-forwarded-for 客户端ip </li>
+<li>cookie 服务器生成的id标签</li>
+</ul>
+<p>　</p>
+<h2 id="二，客户端IP地址"><a href="#二，客户端IP地址" class="headerlink" title="二，客户端IP地址"></a>二，客户端IP地址</h2><p>早期web先锋尝试将客户端IP地址作为一种表示形式使用<br><strong>缺点：</strong></p>
+<blockquote>
+</blockquote>
+<p>使用ip来标识客户端，存在很多缺点。<br>客户端ip描述的是机器，不是用户。<br>很多因特网机器是动态随机分配ip。<br>如果通过代理和网关访问服务器，那么得到的是代理的ip，而不是客户端的。</p>
+<p>　</p>
+<h2 id="三，用户登录"><a href="#三，用户登录" class="headerlink" title="三，用户登录"></a>三，用户登录</h2><p>直接主动让用户登录来识别用户，作为标识。<br>可以向浏览器发送一条http响应代码是401 Login Required，并添加www-authentication首部，<br>然后浏览器就会显示一个登录对话框。只要用户输入对了用户名和密码，服务器就可以识别用户了。<br>浏览器每次在请求中，向服务器发送authorization首部作为一种身份的标志。<br><strong>缺点：</strong><br>登陆多个web站点太繁琐，站点浏览跳转时需要在每个站点登陆，还可能需要记住不同密码。</p>
+<p>　</p>
+<h2 id="四，胖URL"><a href="#四，胖URL" class="headerlink" title="四，胖URL"></a>四，胖URL</h2><p>web站点为每个用户生成特定的URL来追踪用户的身份，一般是对真正的URL进行拓展，在URL开始或结束的地方追加一些状态信息<br>这种包含了用户状态信息的URL称为胖URL<br><strong>缺点：</strong></p>
+<ul>
+<li>丑陋的URL</li>
+<li>无法共享URL<br>因为url中有用户信息，共享会透露个人信息</li>
+<li>破坏缓存<br>每个人的URL都不一样，所以不需要缓存了</li>
+<li>额外的服务器负荷</li>
+<li>非持久</li>
+</ul>
+<p>　</p>
+<h2 id="五，cookie"><a href="#五，cookie" class="headerlink" title="五，cookie"></a>五，cookie</h2><p>cookie是当前用户识别，实现持久会话最好的方式</p>
+<h4 id="cookie类型"><a href="#cookie类型" class="headerlink" title="cookie类型"></a>cookie类型</h4><ul>
+<li>会话cookie<br>浏览器退出，会话cookie就会删除</li>
+<li>持久cookie<br>在设置的时间内不会删除</li>
+</ul>
+<h4 id="cookie是如何工作的"><a href="#cookie是如何工作的" class="headerlink" title="cookie是如何工作的"></a>cookie是如何工作的</h4><blockquote>
+</blockquote>
+<p>用户首次访问站点的时候，web服务器对用户一无所知。web服务器希望这个用户会再次回来，所以给这个<br>用户一个独有的cookie。cookie中包含了一个由名字=值构成的任意列表。通过设置set-cookie，或<br>set-cookie2http响应首部，设置cookie值。浏览器会记住从服务器返回的set-cookie首部中的内容，<br>并将cookie集存储到浏览器的cookie数据库中。将来用户访问同一个站点时，浏览器会将cookie中的值<br>放在cookie首部，传给服务器。</p>
+<p>　</p>
+<h4 id="cookie灌：客户端状态"><a href="#cookie灌：客户端状态" class="headerlink" title="cookie灌：客户端状态"></a>cookie灌：客户端状态</h4><p>cookie的基本思想就是让浏览器积累一组服务器的信息，每次访问服务器，都将这些信息提供给他。<br>因此浏览器要负责存储cookie信息，所以称之为客户端状态。</p>
+<ul>
+<li>网景的cookie 网景将cookie存储在一个名为cookie.txt的文本文件中。每一行代表一个cookie，有7个tab分割的字段。<br><img src="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2db73eee7?w=987&h=330&f=png&s=111846" alt=""></li>
+<li>微软的internet explorer的cookie<br>微软的IE讲cookie储存在高速缓存目录下独立的文本文件中</li>
+</ul>
+<h4 id="不同站点使用不同的cookie"><a href="#不同站点使用不同的cookie" class="headerlink" title="不同站点使用不同的cookie"></a>不同站点使用不同的cookie</h4><p>浏览器内部的cookie罐中可以有成百上千个cookie,但浏览器不会将每个cookie都发送给所有的站点，实际上，通常只向每个站点发送２－３个cookie,原因如下：</p>
+<ul>
+<li>对所有这些cookie字节进行传输会严重降低性能。</li>
+<li>cookie中包含的服务器特有的名值对，所以对大部分站点来说，大多数cookie都只是无法识别的误用数据</li>
+<li>将所有的cookie发送给所有站点会引发潜在的隐私问题。</li>
+</ul>
+<p>总之，浏览器只向服务器发送服务器产生的那些cookie。</p>
+<h5 id="cookie的域属性"><a href="#cookie的域属性" class="headerlink" title="cookie的域属性"></a>cookie的域属性</h5><p>产生cookie的服务器可以向set-cookie响应首部添加一个Domain属性来控制哪些站点可以看到那些cookie,</p>
+<h5 id="cookie路径属性"><a href="#cookie路径属性" class="headerlink" title="cookie路径属性"></a>cookie路径属性</h5><p>cookie规范甚至允许用户将cookie与部分web站点关联起来，可以通过Path属性来实现这一功能，在这个属性列出的URL路径前缀下所有的cookie都是有效的。因此cookie就是由服务器贴到客户端上，由客户端维护的状态片段，只会回送给那些合适的站点，下面我们来更仔细地看看cookie的技术和标准。</p>
+<h4 id="cookie成分"><a href="#cookie成分" class="headerlink" title="cookie成分"></a>cookie成分</h4><p>cookie0与cookie1</p>
+<p><strong>cookie0：</strong></p>
+<blockquote>
+</blockquote>
+<p>name=value 服务器可以创建任意的name=value关联<br>expires 可选的，过期时间<br>domain 可选的，浏览器只向指定的域中的服务器主机名发送cookie。如果没有设置，就默认产生set-cookie响应的服务器主机名。<br>path 可选的，可以为服务器上特定的文档产生cookie。如果没有设置，默认是产生这个响应的url的路径。<br>secure 可选的，只有在使用ssl，才会发送cookie。</p>
+<p>客户端发送请求时，会将所有与域、路径、和安全过滤器相匹配的、未过期的cookie都发送给这个站点。</p>
+<p>　<br><strong>cookie：</strong></p>
+<blockquote>
+</blockquote>
+<p>允许浏览器退出时，强制销毁cookie<br>使用相对秒数，来控制cookie的生存时间<br>通过url端口号，控制cookie作用域<br>为实现互操作性，实现的版本号</p>
+<p>　</p>
+<h4 id="cookie会话跟踪"><a href="#cookie会话跟踪" class="headerlink" title="cookie会话跟踪"></a>cookie会话跟踪</h4><p>可以用cookie在用户与某个web站点进行多项事物处理时对用户进行跟踪，电子商务web站点用会话cookie在用户浏览时记录下用户购物车信息。</p>
+<h4 id="cookie与缓存"><a href="#cookie与缓存" class="headerlink" title="cookie与缓存"></a>cookie与缓存</h4><ul>
+<li>要特别小心，不能分配用过的cookie，不能向用户展示其他人私有文档的内容</li>
+<li>如果向多个用户发送了相同的SetCookier首部，可能会破坏用户的定位</li>
+</ul>
+<h4 id="cookie，安全性和隐私"><a href="#cookie，安全性和隐私" class="headerlink" title="cookie，安全性和隐私"></a>cookie，安全性和隐私</h4><p>cookie是可以禁止的，并且可以通过日志分析和其他方式实现大部分跟踪记录。cookie自身不是很大的安全隐患。<br>但是潜在的滥用情况，总是存在的。第三方站点使用持久cookie跟踪用户就是一种最大的滥用。<em>这种与ip地址和<br>referer首部结合起来，营销公司就可以构建相当准确的用户档案和浏览模式</em>。<br>如果小心的使用cookie，那么cookie带来的好处还是要大于风险的。</p>
+<h2 id="javascript设置，读取，删除cookie方法"><a href="#javascript设置，读取，删除cookie方法" class="headerlink" title="javascript设置，读取，删除cookie方法"></a>javascript设置，读取，删除cookie方法</h2><p>JavaScript是运行在客户端的脚本，因此一般是不能够设置Session的，因为Session是运行在服务器端的。<br>而cookie是运行在客户端的，所以可以用JS来设置cookie.<br>cookie是以键值对的形式保存的，即key=value的格式。各个cookie之间一般是以“;”分隔。</p>
+<h4 id="JS设置cookie"><a href="#JS设置cookie" class="headerlink" title="JS设置cookie"></a>JS设置cookie</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.cookie&#x3D;&quot;name&#x3D;&quot;+username;</span><br><span class="line">&#x2F;&#x2F; 加上终止时间</span><br><span class="line">document.cookie &#x3D; name + &quot;&#x3D;&quot;+ escape (value) + &quot;;expires&#x3D;&quot; + exp.toGMTString();</span><br></pre></td></tr></table></figure>
+
+<h4 id="JS读取cookie"><a href="#JS读取cookie" class="headerlink" title="JS读取cookie"></a>JS读取cookie</h4><p>直接document.cookie就可以获取，但要获取指定名称的cookie值需要这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 该函数返回名称为name的cookie值，如果不存在则返回空，其实现如下： </span><br><span class="line">&lt;script language&#x3D;&quot;JavaScript&quot; type&#x3D;&quot;text&#x2F;javascript&quot;&gt; </span><br><span class="line">&lt;!-- </span><br><span class="line">function getCookie(name)&#123; </span><br><span class="line">var strCookie&#x3D;document.cookie; </span><br><span class="line">var arrCookie&#x3D;strCookie.split(&quot;; &quot;); </span><br><span class="line">for(var i&#x3D;0;i&lt;arrCookie.length;i++)&#123; </span><br><span class="line">var arr&#x3D;arrCookie[i].split(&quot;&#x3D;&quot;); </span><br><span class="line">if(arr[0]&#x3D;&#x3D;name)return arr[1]; </span><br><span class="line">&#125; </span><br><span class="line">return &quot;&quot;; </span><br><span class="line">&#125; </span><br><span class="line">&#x2F;&#x2F;--&gt; </span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除cookie"><a href="#删除cookie" class="headerlink" title="删除cookie"></a>删除cookie</h4><p>为了删除一个cookie，可以将其过期时间设定为一个过去的时间，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;获取当前时间</span><br><span class="line">var date&#x3D;new Date();</span><br><span class="line">&#x2F;&#x2F;将date设置为过去的时间</span><br><span class="line">date.setTime(date.getTime()-10000);</span><br><span class="line">&#x2F;&#x2F;将userId这个cookie删除</span><br><span class="line">document.cookie&#x3D;&quot;userId&#x3D;828; expires&#x3D;&quot;+date.toGMTString();</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法封装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var cookie &#x3D; &#123;</span><br><span class="line">    set:function(key,val,time)&#123;&#x2F;&#x2F;设置cookie方法</span><br><span class="line">        var date&#x3D;new Date(); &#x2F;&#x2F;获取当前时间</span><br><span class="line">        var expiresDays&#x3D;time;  &#x2F;&#x2F;将date设置为n天以后的时间</span><br><span class="line">        date.setTime(date.getTime()+expiresDays*24*3600*1000); &#x2F;&#x2F;格式化为cookie识别的时间</span><br><span class="line">        document.cookie&#x3D;key + &quot;&#x3D;&quot; + val +&quot;;expires&#x3D;&quot;+date.toGMTString();  &#x2F;&#x2F;设置cookie</span><br><span class="line">    &#125;,</span><br><span class="line">    get:function(key)&#123;&#x2F;&#x2F;获取cookie方法</span><br><span class="line">        &#x2F;*获取cookie参数*&#x2F;</span><br><span class="line">        var getCookie &#x3D; document.cookie.replace(&#x2F;[ ]&#x2F;g,&quot;&quot;);  &#x2F;&#x2F;获取cookie，并且将获得的cookie格式化，去掉空格字符</span><br><span class="line">        var arrCookie &#x3D; getCookie.split(&quot;;&quot;)  &#x2F;&#x2F;将获得的cookie以&quot;分号&quot;为标识 将cookie保存到arrCookie的数组中</span><br><span class="line">        var tips;  &#x2F;&#x2F;声明变量tips</span><br><span class="line">        for(var i&#x3D;0;i&lt;arrCookie.length;i++)&#123;   &#x2F;&#x2F;使用for循环查找cookie中的tips变量</span><br><span class="line">            var arr&#x3D;arrCookie[i].split(&quot;&#x3D;&quot;);   &#x2F;&#x2F;将单条cookie用&quot;等号&quot;为标识，将单条cookie保存为arr数组</span><br><span class="line">            if(key&#x3D;&#x3D;arr[0])&#123;  &#x2F;&#x2F;匹配变量名称，其中arr[0]是指的cookie名称，如果该条变量为tips则执行判断语句中的赋值操作</span><br><span class="line">                tips&#x3D;arr[1];   &#x2F;&#x2F;将cookie的值赋给变量tips</span><br><span class="line">                break;   &#x2F;&#x2F;终止for循环遍历</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      delete:function(key)&#123; &#x2F;&#x2F;删除cookie方法</span><br><span class="line">         var date &#x3D; new Date(); &#x2F;&#x2F;获取当前时间</span><br><span class="line">         date.setTime(date.getTime()-10000); &#x2F;&#x2F;将date设置为过去的时间</span><br><span class="line">         document.cookie &#x3D; key + &quot;&#x3D;v; expires &#x3D;&quot; +date.toGMTString();&#x2F;&#x2F;设置cookie</span><br><span class="line">        &#125;</span><br><span class="line">        return tips;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用方式：<br>cookie.get(“uesr”); // 获取键名为user的cookie</p>
+<h2 id="cookies-sessionStorage和localStorage的区别"><a href="#cookies-sessionStorage和localStorage的区别" class="headerlink" title="cookies,sessionStorage和localStorage的区别"></a>cookies,sessionStorage和localStorage的区别</h2><p>以前持久化的存储一些有用的数据一般是通过服务器端的数据库或者浏览器端的cookie来实现</p>
+<p>随着HTML5的出现，web开发又有了两种选择：Web Storage和Web SQL Database.</p>
+<p>Web Storage有两种形式<br>localStorage（本地存储）和sessionStorage（会话存储）</p>
+<ul>
+<li>localStorage：浏览器关闭了数据仍然可以保存下来，并可用于所有同源（相同的域名、协议和端口）窗口（或标签页）永久存储，永不失效，除非手动删除</li>
+<li>sessionStorage：数据存储在窗口对象中，窗口关闭后对应的窗口对象消失，存储的数据也会丢失。就是浏览器窗口关闭就失效了。</li>
+</ul>
+<p><strong>使用</strong><br>使用 local storage和session storage主要通过在js中操作这两个对象来实现，分别为window.localStorage和window.sessionStorage. 这两个对象均是Storage类的两个实例，<br>Storage类的属性和方法。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2dbdad56a?w=637&h=315&f=png&s=19264" alt="Paste_Image.png"></p>
+<h2 id="cookie与session的区别于联系"><a href="#cookie与session的区别于联系" class="headerlink" title="cookie与session的区别于联系"></a>cookie与session的区别于联系</h2><ul>
+<li>cookie与session的区别：cookie数据保存在客户端，session数据保存在服务器端</li>
+<li>cookie和session的共同之处：cookie和session都是用来跟踪浏览器用户身份的会话方式。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/" data-id="ckc0jvy490002psgb8uoxd0cg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vue-hooks学习笔记（含源码解读）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/" class="article-date">
+  <time datetime="2020-06-29T13:14:47.613Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/">vue-hooks学习笔记（含源码解读）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>hooks 百度翻译为钩子，不要把 Hooks 和 Vue 的 生命周期钩子（Lifecycle Hooks） 弄混了，Hooks 是 React 在 V16.7.0-alpha 版本中引入的，而且几天后 Vue 发布了其概念验证版本。<br>最近尤大发布了一个最新的npm包<br>Hook是react中得一项新功能提案，可以让开发人员在不编写Class的情况下使用状态和其他React功能。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Hooks 主要是对模式的复用提供了一种更明确的思路 —— 避免重写组件本身，并允许有状态逻辑的不同部分能无缝地进行协同工作。  </p>
+<p>无状态函数式组件也非常受欢迎，但由于它们只能单纯地渲染，所以它们的用途仅限于展示任务。  </p>
+<p>Hooks 允许我们使用函数调用来定义组件的有状态逻辑，从而解决这些问题。这些函数调用变得更具有组合性、可复用性，并且允许我们在使用函数式组件的同时能够访问和维护状态。  </p>
+<h2 id="为什么-Vue-中需要-Hooks？"><a href="#为什么-Vue-中需要-Hooks？" class="headerlink" title="为什么 Vue 中需要 Hooks？"></a>为什么 Vue 中需要 Hooks？</h2><p>Hooks 在 Vue 中必须提供什么。这似乎是一个不需要解决的问题。毕竟，类并不是 Vue 主要使用的模式。Vue 提供无状态函数式组件（如果需要它们），但为什么我们需要在函数式组件中携带状态呢？我们有 mixins 用于组合可以在多个组件复用的相同逻辑。问题解决了。  </p>
+<h2 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h2><p>h函数是createElement，生产一个VNode节点，即html DOM节点</p>
+<p> createElement(也就是h)是vuejs里的一个函数。这个函数的作用就是生成一个 VNode节点，render 函数得到这个 VNode 节点之后，返回给 Vue.js 的 mount 函数，渲染成真实 DOM 节点，并挂载到根节点上。</p>
+<p> 1、useEffect 做了什么？  </p>
+<p>通过使用这个 Hook，通知 React 组件需要在渲染后执行什么操作。React 将记住传递的 function（把这个 function 成为 “effect”），并在执行 DOM 更新后调用这个 function。在这个效果中，主要的功能仍旧是设置 document.title,但是也可以执行数据获取，或者是调用其他的命令式的 API。</p>
+<p>isMounting:是否为首次渲染  </p>
+<p>vue options上声明的几个本地变量：</p>
+<ul>
+<li>_state：放置响应式数据</li>
+<li>_refsStore：放置非响应式数据，且返回引用类型</li>
+<li>_effectStore：存放副作用逻辑和清理逻辑</li>
+<li>_computedStore：存放计算属性</li>
+</ul>
+<p>vue-hooks暴露了一个hooks函数，开发者在入口Vue.use(hooks)之后，可以将内部逻辑混入所有的子组件。这样，我们就可以在SFC组件中使用hooks啦。  </p>
+<p>Hooks 和 mixins 之间的主要区别之一是 Hooks 实际上可以互相传值<br>_vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom<br>Hooks的思路是将一个组件拆分为较小的函数，而不是基于生命周期方法强制拆分。<br>seEffect提供了类似于 componentDidMount等生命周期钩子的功能 vue里面的mounted  </p>
+<p>hooks的方法 useData useState只能在hooks或者widthHooks中使用  </p>
+<p>hooks中的数据是根据useState出现的顺序来定的  </p>
+<p>借助withHooks，我们可以发挥hooks的作用，但牺牲来很多vue的特性，比如props，attrs,components等。  </p>
+<p>所谓的 “Effect” 对应的概念叫做 “side effect”。指的是状态改变时，相关的远端数据异步请求、事件绑定、改变 DOM 等；因为此类操作要么会引发其他组件的变化，要么在渲染周期中并不能立刻完成，所以就称其为“副作用”。   </p>
+<p>REACT<br>useEffect 能够在组件 render 之后进行不同类型的副作用。某些 effect 可能需要清理，因此可以在 effect 中返回一个 function：  </p>
+<p>参考文档<br>react<br><a href="http://www.ptbird.cn/react-hoot-useEffect.html" target="_blank" rel="noopener">http://www.ptbird.cn/react-hoot-useEffect.html</a><br>vue<br><a href="https://www.jianshu.com/p/f1e6597b19de" target="_blank" rel="noopener">https://www.jianshu.com/p/f1e6597b19de</a> 简书<br><a href="http://www.sohu.com/a/321909448_500651" target="_blank" rel="noopener">http://www.sohu.com/a/321909448_500651</a>  精度vue-hooks<br><a href="https://juejin.im/post/5c7784d5f265da2de713629c" target="_blank" rel="noopener">https://juejin.im/post/5c7784d5f265da2de713629c</a>  掘金<br><a href="https://mp.weixin.qq.com/s/p2f3jsko91iGhrbtjgmt7g?utm_medium=hao.caibaojian.com&amp;utm_source=hao.caibaojian.com" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/p2f3jsko91iGhrbtjgmt7g?utm_medium=hao.caibaojian.com&amp;utm_source=hao.caibaojian.com</a>  云前端<br><a href="https://1byte.io/react-hooks/" target="_blank" rel="noopener">https://1byte.io/react-hooks/</a>   react<br><a href="https://blog.csdn.net/liuyingv8/article/details/84068075" target="_blank" rel="noopener">https://blog.csdn.net/liuyingv8/article/details/84068075</a>  react   30分钟  </p>
+<h3 id="传统vue组件的缺点"><a href="#传统vue组件的缺点" class="headerlink" title="传统vue组件的缺点"></a>传统vue组件的缺点</h3><ul>
+<li>跨组件代码难以复用</li>
+<li>大组件，维护困难，颗粒度不好控制，细粒度划分时，组件嵌套存层次太深-影响性能</li>
+<li>类组件，this不可控，逻辑分散，不容易理解</li>
+<li>mixins具有副作用，逻辑互相嵌套，数据来源不明，且不能互相消费 </li>
+</ul>
+<p>Q:<br>1，currentInstance是如何记录当前实例的<br>当前hooks文件的this就是当前的vue实例，将this赋值给currentInstance，然后将_effectStore等赋值给当前vue实例即可  </p>
+<p>2，currentInstance是如何成为proxy对象的  未知<br>currentInstance为当前vue实例，this即为proxy对象  </p>
+<p>3，hooks如何解决minix的问题的  </p>
+<ul>
+<li>数据消费<br>hooks能够方位当前vue实例的数据，可以相互消费  </li>
+<li>数据来源<br>hooks为我们手动调用的，所以数据来源为哪里就显然易见了  </li>
+</ul>
+<p>4，beforeMount里面，将currentInstance赋值了又置为空<br>赋值后，触发了render函数，注册了事件，置空当前变量  </p>
+<p>5，reder时，h的两次的用义<br>foo函数中的h函数是为了将jsx转为option对象，第二个h函数是为了option对象转为虚拟dom  </p>
+<p>6，id递增是为了每次获取新值？<br>vue-hooks将数据的获取与设置以id来代替，访问id即可得到映射的值，每个vue实例中的数据所对应的id是固定的  </p>
+<p>7， currentInstance.$on(‘hook:mounted’）的emit在哪里<br>vue源码支持，详见截图  </p>
+<p>8，hooks是否能够生命data或者computed,props<br>能访问，是否能定义还未知<br>不需要定义，直接在vue实例中的hooks钩子中return即可，template就能</p>
+<p>mixins混入的问题是什么？vue-hooks是怎么解决其问题的<br>mixins 不能相互消费和使用状态，但 Hooks 可以。<br>hooks的用法？  </p>
+<p>9，什么时候会多次渲染  </p>
+<p>10，hooks钩子在哪个生命周期后面执行<br>beforeMount</p>
+<p>11，不能放在条件或循环中  </p>
+<ul>
+<li>对 useState() 的调用次数必须是一样的。</li>
+<li>与各状态对应的 useState()的调用顺序是一样的。  </li>
+</ul>
+<p>12，自定义hooks是什么，解决什么问题，怎么使用，会有什么问题？  </p>
+<p>13，不全局使用vue-hooks，只在相应的hooks文件import可以吗？<br>不行，withHooks依旧是返回一个vue component的配置项options，后续的hooks相关的属性都挂载在本地提供的options上。  </p>
+<p>14，不能申明相同的属性_state，会被覆盖  </p>
+<h3 id="vue-hooks解决的问题"><a href="#vue-hooks解决的问题" class="headerlink" title="vue-hooks解决的问题"></a>vue-hooks解决的问题</h3><ul>
+<li>实现了mixins的功能，并且解决了mixins的两个问题<ul>
+<li>允许相互传递状态</li>
+<li>明确指出了逻辑来自哪里<br>使用 Hooks，函数的返回值会记录消费的值。</li>
+</ul>
+</li>
+<li>vue-hooks是简化组件定义、复用状态逻辑的一种最新尝试，且结合 Vue 实例的特点提供了适用的 Hooks</li>
+</ul>
+<p>hooks.js中的this为当前vue实例  </p>
+<p>react-hooks<br>hooks只能出现在函数作用域的顶级，不能出现在条件语句、循环语句中、嵌套函数中。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>withHooks 返回一个包装过的 Vue 实例配置</p>
+<p>hooks 以 mixin 的形式发挥作用，注入两个生命周期</p>
+<p>用模块局部变量 currentInstance 记录了 Hooks 生效的 Vue 实例  </p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>withHooks为vue组件提供了hooks+VNode，使用方式如下：</p>
+<p>withHooks 返回一个包装过的 Vue 实例配置</p>
+<ul>
+<li>Vue式钩子  </li>
+<li>在普通Vue组件中的用法</li>
+</ul>
+<p>使用注意点<br>如果 useState 被包裹在 condition 中，那每次执行的下标就可能对不上，导致 useState 导出的 setter 更新错数据。</p>
+<h3 id="源码解读-1"><a href="#源码解读-1" class="headerlink" title="源码解读"></a>源码解读</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br></pre></td><td class="code"><pre><span class="line">let currentInstance &#x3D; null &#x2F;&#x2F;缓存当前的vue实例</span><br><span class="line">let isMounting &#x3D; false &#x2F;&#x2F; render是否为首次渲染</span><br><span class="line">let callIndex &#x3D; 0 &#x2F;&#x2F; 当前数据对应的索引,当往options上挂载属性时，使用callIndex作为唯一当索引标识</span><br><span class="line"></span><br><span class="line">function ensureCurrentInstance() &#123; &#x2F;&#x2F; 是否有实例</span><br><span class="line">  if (!currentInstance) &#123;</span><br><span class="line">    &#x2F;&#x2F; 无效的挂钩调用：只能在传递给withhooks的函数中调用挂钩</span><br><span class="line">    throw new Error(</span><br><span class="line">      &#96;invalid hooks call: hooks can only be called in a function passed to withHooks.&#96;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useState(initial) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const state &#x3D; currentInstance.$data._state</span><br><span class="line">  &#x2F;&#x2F; 通过闭包提供了一个更新器updater</span><br><span class="line">  const updater &#x3D; newValue &#x3D;&gt; &#123;</span><br><span class="line">    state[id] &#x3D; newValue</span><br><span class="line">  &#125;</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$set(state, id, initial)</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 下一次的render过程，不会在重新使用$set初始化</span><br><span class="line">  return [state[id], updater]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 负责副作用处理和清理逻辑</span><br><span class="line">&#x2F;&#x2F; 这里的副作用可以理解为可以根据依赖选择性的执行的操作</span><br><span class="line">&#x2F;&#x2F; 没必要每次re-render都执行，比如dom操作，网络请求等。</span><br><span class="line">&#x2F;&#x2F; 而这些操作可能会导致一些副作用，比如需要清除dom监听器，清空引用等等。</span><br><span class="line">export function useEffect(rawEffect, deps) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 初始化时，声明了清理函数和副作用函数，并将effect的current指向当前的副作用逻辑，</span><br><span class="line">  &#x2F;&#x2F; 在mounted阶段调用一次副作用函数，将返回值当成清理逻辑保存。</span><br><span class="line">  &#x2F;&#x2F; 同时根据依赖来判断是否在updated阶段再次调用副作用函数。</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    const cleanup &#x3D; () &#x3D;&gt; &#123;</span><br><span class="line">      const &#123; current &#125; &#x3D; cleanup</span><br><span class="line">      if (current) &#123;</span><br><span class="line">        current()</span><br><span class="line">        cleanup.current &#x3D; null</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    const effect &#x3D; function() &#123;</span><br><span class="line">      const &#123; current &#125; &#x3D; effect</span><br><span class="line">      if (current) &#123;</span><br><span class="line">        &#x2F;&#x2F; 将返回值当成清理逻辑保存</span><br><span class="line">        cleanup.current &#x3D; current.call(this)</span><br><span class="line">        effect.current &#x3D; null</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 将effect的current指向当前的副作用逻辑，在mounted阶段调用一次副作用函数</span><br><span class="line">    effect.current &#x3D; rawEffect</span><br><span class="line"></span><br><span class="line">    currentInstance._effectStore[id] &#x3D; &#123;</span><br><span class="line">      effect,</span><br><span class="line">      cleanup,</span><br><span class="line">      deps</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; \vue-dev\src\core\instance\lifecycle.js</span><br><span class="line">    currentInstance.$on(&#39;hook:mounted&#39;, effect)</span><br><span class="line">    currentInstance.$on(&#39;hook:destroyed&#39;, cleanup)</span><br><span class="line">    if (!deps || deps.length &gt; 0) &#123;</span><br><span class="line">      currentInstance.$on(&#39;hook:updated&#39;, effect)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F; 非首次渲染时，会根据deps依赖来判断是否需要再次调用副作用函数，</span><br><span class="line">    &#x2F;&#x2F; 需要再次执行时，先清除上一次render产生的副作用，</span><br><span class="line">    &#x2F;&#x2F; 并将副作用函数的current指向最新的副作用逻辑，等待updated阶段调用。</span><br><span class="line">    const record &#x3D; currentInstance._effectStore[id]</span><br><span class="line">    const &#123; effect, cleanup, deps: prevDeps &#x3D; [] &#125; &#x3D; record</span><br><span class="line">    record.deps &#x3D; deps</span><br><span class="line">    if (!deps || deps.some((d, i) &#x3D;&gt; d !&#x3D;&#x3D; prevDeps[i])) &#123;</span><br><span class="line">      cleanup()</span><br><span class="line">      effect.current &#x3D; rawEffect</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; f初始化会返回一个携带current的引用，current指向初始化的值</span><br><span class="line">export function useRef(initial) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const &#123; _refsStore: refs &#125; &#x3D; currentInstance</span><br><span class="line">  return isMounting ? (refs[id] &#x3D; &#123; current: initial &#125;) : refs[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 挂载一个响应式数据，但是没有提供更新器</span><br><span class="line">export function useData(initial) &#123;</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const state &#x3D; currentInstance.$data._state</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$set(state, id, initial)</span><br><span class="line">  &#125;</span><br><span class="line">  return state[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; useEffect依赖传[]时，副作用函数只在mounted阶段调用。</span><br><span class="line">export function useMounted(fn) &#123;</span><br><span class="line">  useEffect(fn, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; useEffect依赖传[]且存在返回函数，返回函数会被当作清理逻辑在destroyed调用。</span><br><span class="line">export function useDestroyed(fn) &#123;</span><br><span class="line">  useEffect(() &#x3D;&gt; fn, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果deps固定不变，传入的useEffect会在mounted和updated阶段各执行一次，</span><br><span class="line">&#x2F;&#x2F; 这里借助useRef声明一个持久化的变量，来跳过mounted阶段。</span><br><span class="line">export function useUpdated(fn, deps) &#123;</span><br><span class="line">  const isMount &#x3D; useRef(true)</span><br><span class="line">  useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">    if (isMount.current) &#123;</span><br><span class="line">      isMount.current &#x3D; false</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return fn()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, deps)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useWatch(getter, cb, options) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  &#x2F;&#x2F; 加了一个是否初次渲染判断，防止re-render产生多余Watcher观察者。</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    currentInstance.$watch(getter, cb, options)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function useComputed(getter) &#123;</span><br><span class="line">  ensureCurrentInstance()</span><br><span class="line">  const id &#x3D; ++callIndex</span><br><span class="line">  const store &#x3D; currentInstance._computedStore</span><br><span class="line">  if (isMounting) &#123;</span><br><span class="line">    &#x2F;&#x2F; 先会计算一次依赖值并缓存</span><br><span class="line">    store[id] &#x3D; getter()</span><br><span class="line">    &#x2F;&#x2F; 调用$watch来观察依赖属性变化，并更新对应的缓存值。</span><br><span class="line">    currentInstance.$watch(getter, val &#x3D;&gt; &#123;</span><br><span class="line">      store[id] &#x3D; val</span><br><span class="line">    &#125;, &#123; sync: true &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  return store[id]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function withHooks(render) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        _state: &#123;&#125;  &#x2F;&#x2F; 不能申明相同的属性_state，会被覆盖</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    created() &#123;</span><br><span class="line">      this._effectStore &#x3D; &#123;&#125;</span><br><span class="line">      this._refsStore &#x3D; &#123;&#125;</span><br><span class="line">      this._computedStore &#x3D; &#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    render(h) &#123;</span><br><span class="line">      callIndex &#x3D; 0</span><br><span class="line">      currentInstance &#x3D; this &#x2F;&#x2F; 将当前的</span><br><span class="line">      isMounting &#x3D; !this._vnode &#x2F;&#x2F; _vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom,isMounting除了控制内部数据初始化的阶段外，还能防止重复re-render</span><br><span class="line">      const ret &#x3D; render(h, this.$attrs, this.$props) &#x2F;&#x2F; 传入了attrs和$props作为入参，且在渲染完当前组件后</span><br><span class="line">      currentInstance &#x3D; null &#x2F;&#x2F; 重置全局变量，以备渲染下个组件。</span><br><span class="line">      return ret</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function hooks (Vue) &#123;</span><br><span class="line">  Vue.mixin(&#123; &#x2F;&#x2F; 换入两个生命周期</span><br><span class="line">    beforeCreate() &#123;</span><br><span class="line">      const &#123; hooks, data &#125; &#x3D; this.$options</span><br><span class="line">      if (hooks) &#123;</span><br><span class="line">        this._effectStore &#x3D; &#123;&#125;</span><br><span class="line">        this._refsStore &#x3D; &#123;&#125;</span><br><span class="line">        this._computedStore &#x3D; &#123;&#125;</span><br><span class="line">        this.$options.data &#x3D; function () &#123;</span><br><span class="line">          const ret &#x3D; data ? data.call(this) : &#123;&#125;</span><br><span class="line">          ret._state &#x3D; &#123;&#125; &#x2F;&#x2F; 重置_state属性</span><br><span class="line">          return ret</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    beforeMount() &#123;</span><br><span class="line">      const &#123; hooks, render &#125; &#x3D; this.$options</span><br><span class="line">      if (hooks &amp;&amp; render) &#123;</span><br><span class="line">        this.$options.render &#x3D; function(h) &#123;</span><br><span class="line">          callIndex &#x3D; 0</span><br><span class="line">          currentInstance &#x3D; this</span><br><span class="line">          isMounting &#x3D; !this._vnode &#x2F;&#x2F; _vnode初始化为null，在mounted阶段会被赋值为当前组件的v-dom</span><br><span class="line">          const hookProps &#x3D; hooks(this.$props) &#x2F;&#x2F; 调用hooks方法，将return的字段放到实例本身上，即可得到响应数据</span><br><span class="line">          Object.assign(this._self, hookProps)</span><br><span class="line">          const ret &#x3D; render.call(this, h)</span><br><span class="line">          currentInstance &#x3D; null</span><br><span class="line">          return ret</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/" data-id="ckc0jvy4b0004psgb90izb39p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-常用markdown语法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/" class="article-date">
+  <time datetime="2020-06-29T13:14:04.884Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/">常用markdown语法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="用掘金－Markdown-编辑器写文章"><a href="#用掘金－Markdown-编辑器写文章" class="headerlink" title="用掘金－Markdown 编辑器写文章"></a>用掘金－Markdown 编辑器写文章</h3><p>欢迎使用 掘金－Markdown 编辑器撰写技术文章，只专注于内容和技术，不再费心排版的问题。这是一份简要的 Markdown 引导指南，希望可以帮助您顺利的开始使用 Markdown 编辑器。</p>
+<h3 id="丰富的快捷键"><a href="#丰富的快捷键" class="headerlink" title="丰富的快捷键"></a>丰富的快捷键</h3><p>本 Markdown 编辑器支持丰富的格式快捷键，可以非常便捷、轻松的使用 Markdown 语言，形成优美的排版和内容格式。</p>
+<p>支持的快捷键有：</p>
+<ul>
+<li>加粗： <code>Ctrl/Cmd + B</code></li>
+<li>标题： <code>Ctrl/Cmd + H</code></li>
+<li>插入链接： <code>Ctrl/Cmd + K</code></li>
+<li>插入代码： <code>Ctrl/Cmd + Shift + C</code></li>
+<li>行内代码： <code>Ctrl/Cmd + Shift + K</code></li>
+<li>插入图片： <code>Ctrl/Cmd + Shift + I</code></li>
+<li>无序列表： <code>Ctrl/Cmd + Shift + L</code></li>
+<li>撤销： <code>Ctrl/Cmd + Z</code></li>
+</ul>
+<h3 id="常用语法"><a href="#常用语法" class="headerlink" title="常用语法"></a>常用语法</h3><h4 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h4><blockquote>
+<p>语法格式：** ‘#’+’空格’+’文本’ **</p>
+</blockquote>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><blockquote>
+<p>无序列表语法格式：** ‘-‘ + ‘空格’ ＋ ‘文本’ **</p>
+</blockquote>
+<ul>
+<li>文本一</li>
+<li>文本二</li>
+<li>文本三</li>
+</ul>
+<blockquote>
+<p>有序列表语法格式：** ‘数字’ + ‘.’ + ‘空格’ + ‘文本’ **</p>
+</blockquote>
+<ol>
+<li>文本一</li>
+<li>文本二</li>
+<li>文本三</li>
+</ol>
+<blockquote>
+<p>任务列表语法格式：** ‘-‘ + ‘空格’ + ‘[ ]’ + ‘文本’ **</p>
+</blockquote>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 文本一</li>
+<li><input disabled="" type="checkbox"> 文本二</li>
+<li><input disabled="" type="checkbox"> 文本三</li>
+</ul>
+<h4 id="链接和图片"><a href="#链接和图片" class="headerlink" title="链接和图片"></a>链接和图片</h4><p>在 Markdown 中插入链接不需要其他按钮，你只需要使用<code>［显示文本］(链接地址)</code>这样的格式语法即可。例如：<br><a href="https://gold.xitu.io" target="_blank" rel="noopener">稀土掘金</a><br>插入图片的语法与插入链接的语法很像，只是前面多了一个 <code>!</code>.语法如下：<br><code>![图片的标注](图片链接地址)</code></p>
+<h4 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h4><blockquote>
+<p>语法：** ‘&gt;’+’空格’+’文本’ **</p>
+</blockquote>
+<p>例如：</p>
+<blockquote>
+<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。</p>
+</blockquote>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>如下是代码段的语法：</p>
+<pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这是代码段</span><br></pre></td></tr></table></figure>
+</pre>
+
+<p>例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubbleSort</span><span class="params">(alist)</span>:</span></span><br><span class="line"> <span class="keyword">for</span> passnum <span class="keyword">in</span> range(len(alist)<span class="number">-1</span>,<span class="number">0</span>,<span class="number">-1</span>):</span><br><span class="line"> <span class="comment">#print alist,passnum</span></span><br><span class="line"> <span class="keyword">for</span> i <span class="keyword">in</span> range(passnum):</span><br><span class="line"> <span class="keyword">if</span> alist[i]&gt;alist[i+<span class="number">1</span>]:</span><br><span class="line"> temp = alist[i]</span><br><span class="line"> alist[i] = alist[i+<span class="number">1</span>]</span><br><span class="line"> alist[i+<span class="number">1</span>] = temp</span><br><span class="line"> <span class="keyword">return</span> alist</span><br></pre></td></tr></table></figure>
+
+<h4 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h4><p><strong>Markdown　Extra</strong>　表格语法：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iPhone</td>
+<td>$560</td>
+</tr>
+<tr>
+<td>iPad</td>
+<td>$780</td>
+</tr>
+<tr>
+<td>iMac</td>
+<td>$1000</td>
+</tr>
+</tbody></table>
+<p>可以使用冒号来定义对齐方式：</p>
+<table>
+<thead>
+<tr>
+<th align="left">项目</th>
+<th align="right">价格</th>
+<th align="center">数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">iPhone</td>
+<td align="right">6000 元</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="left">iPad</td>
+<td align="right">3800 元</td>
+<td align="center">12</td>
+</tr>
+<tr>
+<td align="left">iMac</td>
+<td align="right">10000 元</td>
+<td align="center">234</td>
+</tr>
+</tbody></table>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>以上是最常见的 Markdown 的语法和格式，如果你还希望深入的学习 Markdown，可以参考这里<a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">Markdown语法</a>，非常感谢使用** 掘金－Markdown 编辑器**,希望为您提供舒适的写作体验。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/" data-id="ckc0jvy450001psgb0qba5a2h" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-TCP与IP学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2020-06-29T13:13:12.849Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/">TCP与IP学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="TCP-IP协议定义"><a href="#TCP-IP协议定义" class="headerlink" title="TCP/IP协议定义"></a>TCP/IP协议定义</h2><p>TCP/IP（Transmission Control Protocol/Internet Protocol，传输控制协议/网际协议）是指能够在多个不同网络间实现信息传输的协议簇。TCP/IP协议不仅仅指的是TCP 和IP两个协议，而是指一个由FTP、SMTP、TCP、UDP、IP等协议构成的协议簇， 只是因为在TCP/IP协议中TCP协议和IP协议最具代表性，所以被称为TCP/IP协议</p>
+<p>TCP/IP 通信协议是对计算机必须遵守的规则的描述，只有遵守这些规则，计算机之间才能进行通信。</p>
+<h2 id="OSI七层模型-网络七层协议"><a href="#OSI七层模型-网络七层协议" class="headerlink" title="OSI七层模型### 网络七层协议"></a>OSI七层模型### 网络七层协议</h2><p>物理层 数据链路层 网络层 传输层 会话层 表示层 应用层<br><img src="https://static.runoob.com/images/mix/v2-854e3df8ea850c977c30cb1deb1f64db_r.jpg" alt="image"></p>
+<p>为了简化复杂度，所以在TCP/IP协议中，它们被简化为了四个层次。</p>
+<ul>
+<li>应用层<br>应用层、表示层、会话层三个层次提供的服务相差不是很大，所以在TCP/IP协议中，它们被合并为应用层一个层次  <ul>
+<li>对不同种类的应用程序它们会根据自己的需要来使用应用层的不同协议，邮件传输应用使用了SMTP协议、万维网应用使用了HTTP协议、远程登录服务应用使用了有TELNET协议。</li>
+<li>加密、解密、格式化数据。</li>
+<li>以建立或解除与其他节点的联系，这样可以充分节省网络资源。</li>
+</ul>
+</li>
+<li>运输层<br>运输层：作为TCP/IP协议的第二层，运输层在整个TCP/IP协议中起到了中流砥柱的作用。且在运输层中，TCP和UDP也同样起到了中流砥柱的作用。</li>
+<li>网络层<br>网络层在TCP/IP协议中的位于第三层。在TCP/IP协议中网络层可以进行网络连接的建立和终止以及IP地址的寻找等功能</li>
+<li>网络接口层<br>包括数据链路层和物理层，网络接口层既是传输数据的物理媒介，也可以为网络层提供一条准确无误的线路。</li>
+</ul>
+<h2 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h2><ul>
+<li>TCP (传输控制协议) - 应用程序之间通信<br>是一种面向连接的、可靠的、基于字节流的通信协议</li>
+<li>UDP (用户数据报协议) - 应用程序之间的简单通信<br>协议定义了端口，当数据包到达主机以后，就可以根据端口号找到对应的应用程序了，比较简单，实现容易，但它没有确认机制，数据包一旦发出，无法知道对方是否收到，因此可靠性较差</li>
+</ul>
+<p>当应用程序希望通过 TCP 与另一个应用程序通信时，它会发送一个通信请求。这个请求必须被送到一个确切的地址。在双方”握手”之后，TCP 将在两个应用程序之间建立一个全双工 (full-duplex) 的通信。<br>这个全双工的通信将占用两个计算机之间的通信线路，直到它被一方或双方关闭为止。<br>UDP 和 TCP 很相似，但是更简单，同时可靠性低于 TCP。</p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p>第一次握手：建立连接时，客户端发送syn包（syn=x）到服务器，并进入SYN_SENT状态，等待服务器确认；SYN：同步序列编号（Synchronize Sequence Numbers）。</p>
+<p>第二次握手：服务器收到syn包，必须确认客户的SYN（ack=x+1），同时自己也发送一个SYN包（syn=y），即SYN+ACK包，此时服务器进入SYN_RECV状态；</p>
+<p>第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack=y+1），此包发送完毕，客户端和服务器进入ESTABLISHED（TCP连接成功）状态，完成三次握手。</p>
+<p><img src="https://img-blog.csdn.net/20180717202520531?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p>
+<h2 id="四次挥手-FIN（希望断开连接）"><a href="#四次挥手-FIN（希望断开连接）" class="headerlink" title="四次挥手  FIN（希望断开连接）"></a>四次挥手  FIN（希望断开连接）</h2><p>1）客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。   TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。  </p>
+<p>2）服务器收到连接释放报文，发出确认报文，ACK=1，ack=u+1，并且带上自己的序列号seq=v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。  </p>
+<p>3）客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。  </p>
+<p>4）服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。  </p>
+<p>5）客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。  </p>
+<p>6）服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</p>
+<p><img src="https://img-blog.csdn.net/20180717204202563?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p>
+<h1 id="常见面试题"><a href="#常见面试题" class="headerlink" title="常见面试题"></a>常见面试题</h1><p>【问题1】为什么连接的时候是三次握手，关闭的时候却是四次握手？</p>
+<p>答：因为当Server端收到Client端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中ACK报文是用来应答的，SYN报文是用来同步的。但是关闭连接时，当Server端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉Client端，”你发的FIN报文我收到了”。只有等到我Server端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四步握手。</p>
+<p>【问题2】为什么TIME_WAIT状态需要经过2MSL(最大报文段生存时间)才能返回到CLOSE状态？</p>
+<p>答：虽然按道理，四个报文都发送完毕，我们可以直接进入CLOSE状态了，但是我们必须假象网络是不可靠的，有可以最后一个ACK丢失。所以TIME_WAIT状态就是用来重发可能丢失的ACK报文。在Client发送出最后的ACK回复，但该ACK可能丢失。Server如果没有收到ACK，将不断重复发送FIN片段。所以Client不能立即关闭，它必须确认Server接收到了该ACK。Client会在发送出ACK之后进入到TIME_WAIT状态。Client会设置一个计时器，等待2MSL的时间。如果在该时间内再次收到FIN，那么Client会重发ACK并再次等待2MSL。所谓的2MSL是两倍的MSL(Maximum Segment Lifetime)。MSL指一个片段在网络中最大的存活时间，2MSL就是一个发送和一个回复所需的最大时间。如果直到2MSL，Client都没有再次收到FIN，那么Client推断ACK已经被成功接收，则结束TCP连接。</p>
+<p>【问题3】为什么不能用两次握手进行连接？</p>
+<p>答：3次握手完成两个重要的功能，既要双方做好发送数据的准备工作(双方都知道彼此已准备好)，也要允许双方就初始序列号进行协商，这个序列号在握手过程中被发送和确认。</p>
+<p>现在把三次握手改成仅需要两次握手，死锁是可能发生的。作为例子，考虑计算机S和C之间的通信，假定C给S发送一个连接请求分组，S收到了这个分组，并发 送了确认应答分组。按照两次握手的协定，S认为连接已经成功地建立了，可以开始发送数据分组。可是，C在S的应答分组在传输中被丢失的情况下，将不知道S 是否已准备好，不知道S建立什么样的序列号，C甚至怀疑S是否收到自己的连接请求分组。在这种情况下，C认为连接还未建立成功，将忽略S发来的任何数据分 组，只等待连接确认应答分组。而S在发出的分组超时后，重复发送同样的分组。这样就形成了死锁。</p>
+<p>【问题4】如果已经建立了连接，但是客户端突然出现故障了怎么办？</p>
+<p>TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75秒钟发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ul>
+<li>常用的传输层协议有哪些？</li>
+<li>TCP和UDP分别有什么特点？</li>
+<li>解释一下TCP的三次握手和四次挥手？</li>
+<li>为什么说TCP可能是网络通信的瓶颈？</li>
+<li>如何解决TCP队首阻塞？</li>
+</ul>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://blog.csdn.net/nice07/article/details/83652753" target="_blank" rel="noopener">https://blog.csdn.net/nice07/article/details/83652753</a><br><a href="https://www.runoob.com/tcpip/tcpip-email.html" target="_blank" rel="noopener">https://www.runoob.com/tcpip/tcpip-email.html</a>  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/" data-id="ckc0jvy4a0003psgbf1zdhyxd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-http基础知识，你真的都会了吗" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/" class="article-date">
+  <time datetime="2020-06-29T12:44:10.978Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/">http基础知识，你真的都会了吗</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="http定义"><a href="#http定义" class="headerlink" title="http定义"></a>http定义</h2><p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是因特网上应用最为广泛的一种网络传输协议，所有的WWW文件都必须遵守这个标准。</p>
+<p>HTTP是一个基于TCP/IP通信协议来传递数据（HTML 文件, 图片文件, 查询结果等）。<br>HTTP是在应用层，HTTP默认端口号为80</p>
+<h2 id="HTTP工作原理"><a href="#HTTP工作原理" class="headerlink" title="HTTP工作原理"></a>HTTP工作原理</h2><p>HTTP协议工作于客户端-服务端架构上。浏览器作为HTTP客户端通过URL向HTTP服务端即WEB服务器发送所有请求。</p>
+<h2 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h2><p>一个HTTP请求报文由请求行（request line）、请求头部（header）、空行和请求数据4个部分组成。<br>举例：   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;user HTTP&#x2F;1.1      &#x2F;&#x2F;请求行</span><br><span class="line">Host: www.user.com</span><br><span class="line">Content-Type: application&#x2F;x-www-form-urlencoded</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">User-agent: Mozilla&#x2F;5.0.      &#x2F;&#x2F;以上是首部行</span><br><span class="line">（此处必须有一空行，通知服务器以下不再有请求头）  &#x2F;&#x2F;空行分割header和请求内容 </span><br><span class="line">name&#x3D;world   请求体</span><br></pre></td></tr></table></figure>
+<p><strong>图解</strong><br><img src="https://user-gold-cdn.xitu.io/2020/6/29/172fde35b127e9a2?w=897&h=529&f=png&s=454862" alt="image"></p>
+<h3 id="1-1-请求行"><a href="#1-1-请求行" class="headerlink" title="1.1 请求行"></a>1.1 请求行</h3><p>请求行由三部分组成：请求方法，请求URL（不包括域名），HTTP协议版本  </p>
+<h4 id="1-1-1-请求方法"><a href="#1-1-1-请求方法" class="headerlink" title="1.1.1 请求方法"></a>1.1.1 请求方法</h4><p>1） GET</p>
+<p>　　传递参数长度受限制，因为传递的参数是直接表示在地址栏中，而特定浏览器和服务器对url的长度是有限制的。</p>
+<p>　　因此，GET不适合用来传递私密数据，也不适合拿来传递大量数据。</p>
+<p>　　一般的HTTP请求大多都是GET。</p>
+<p>2）POST</p>
+<p>　　POST把传递的数据封装在HTTP请求数据中，以名称/值的形式出现，可以传输大量数据，对数据量没有限制，也不会显示在URL中。</p>
+<p>　　表单的提交用的是POST。</p>
+<p>3）HEAD</p>
+<p>　　HEAD跟GET相似，不过服务端接收到HEAD请求时只返回响应头，不发送响应内容。所以，如果只需要查看某个页面的状态时，用HEAD更高效，因为省去了传输页面内容的时间。</p>
+<p>4）DELETE</p>
+<p>　　删除某一个资源。</p>
+<p>5）OPTIONS</p>
+<p>　　用于获取当前URL所支持的方法。若请求成功，会在HTTP头中包含一个名为“Allow”的头，值是所支持的方法，如“GET, POST”。</p>
+<p>6）PUT</p>
+<p>　　把一个资源存放在指定的位置上。</p>
+<p>　　本质上来讲， PUT和POST极为相似，都是向服务器发送数据，但它们之间有一个重要区别，PUT通常指定了资源的存放位置，而POST则没有，POST的数据存放位置由服务器自己决定。</p>
+<p>　　关于POST和PUT的区别以及请求方法的幂等性，请参考文章：http的7种请求方法和幂等性</p>
+<p>7）TRACE</p>
+<p>　　回显服务器收到的请求，主要用于测试或诊断。</p>
+<p>8）CONNECT</p>
+<p>　　CONNECT方法是HTTP/1.1协议预留的，能够将连接改为管道方式的代理服务器。通常用于SSL加密服务器的链接与非加密的HTTP代理服务器的通信。</p>
+<p>1.1.2 HTTP协议版本<br>1）HTTP/1.0</p>
+<p>　　HTTP/1.0支持：GET、POST、HEAD三种HTTP请求方法。</p>
+<p>2）HTTP/1.1</p>
+<p>　　HTTP/1.1是当前正在使用的版本。该版本默认采用持久连接，并能很好地配合代理服务器工作。还支持以管道方式同时发送多个请求，以便降低线路负载，提高传输速度。</p>
+<p>　　HTTP/1.1新增了：OPTIONS、PUT、DELETE、TRACE、CONNECT五种HTTP请求方法。
+　　</p>
+<h3 id="1-2-请求头部"><a href="#1-2-请求头部" class="headerlink" title="1.2 请求头部"></a>1.2 请求头部</h3><p>请求头部由关键字/值对组成，每行一对</p>
+<ul>
+<li>User-Agent : 产生请求的浏览器类型</li>
+<li>Accept : 客户端希望接受的数据类型，比如 Accept：text/xml（application/json）表示希望接受到的是xml（json）类型</li>
+<li>Content-Type：发送端发送的实体数据的数据类型。<br>比如，Content-Type：text/html（application/json）表示发送的是html类型。</li>
+<li>Host : 请求的主机名，允许多个域名同处一个IP地址，即虚拟主机</li>
+</ul>
+<h2 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h2><p>HTTP响应报文和请求报文的结构差不多，也是由四个部分组成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">＜status-line＞   &#x2F;&#x2F;状态行</span><br><span class="line"></span><br><span class="line">＜headers＞   &#x2F;&#x2F;消息报头</span><br><span class="line"></span><br><span class="line">＜blank line＞   &#x2F;&#x2F;空行</span><br><span class="line"></span><br><span class="line">＜response-body＞    &#x2F;&#x2F;响应体</span><br></pre></td></tr></table></figure>
+
+<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><ul>
+<li>1XX:提示信息，表示服务器已经接收到浏览器的请求，继续处理</li>
+<li>2XX:处理成功，表示浏览器的请求已经成功被接收、并正确处理</li>
+<li>3XX:重定向，表示需要进行更进一步的处理</li>
+<li>4XX客户端请求错误,表示客户端请求出现错误</li>
+<li>5XX服务器端错误，服务器未能正确处理客户端请求</li>
+</ul>
+<p>常见状态码解释：</p>
+<ul>
+<li>200   OK ：表示客户端请求被成功接收，并将响应数据发送给客户端</li>
+<li>302   Found ：重定向，新的URL会在Response中返回，浏览器将会自动向新的URL发送请求。</li>
+<li>304   Not Modified ：表示信息已经被缓存了，还可以继续使用</li>
+<li>403   Forbidden ：服务器接收到客户端请求，但拒绝为客户端提供服务</li>
+<li>404   Not Found ：表示客户端请求的资源不存在（url输错了）</li>
+<li>500   Internet Server Error ：服务器发生了不可预期的错误</li>
+</ul>
+<h3 id="HTTP报文结构和内容"><a href="#HTTP报文结构和内容" class="headerlink" title="HTTP报文结构和内容"></a>HTTP报文结构和内容</h3><p><img src="https://user-gold-cdn.xitu.io/2020/6/29/172fde36b5c2a32c?w=790&h=476&f=png&s=83399" alt="image"></p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="跨域如何携带cookie"><a href="#跨域如何携带cookie" class="headerlink" title="跨域如何携带cookie"></a>跨域如何携带cookie</h3><p>设置跨域的时候，默认不会携带cookie相关信息。如需要携带，cookie客户端配置 xhr.withCredentials = true，服务端 Access-Control-Allow-Credentials：true</p>
+<h3 id="什么是胖URL"><a href="#什么是胖URL" class="headerlink" title="什么是胖URL"></a>什么是胖URL</h3><p>胖URL：包含用户状态信息的URL被称为胖URL</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>下一篇着重讲缓存</p>
+<p>必会：</p>
+<ul>
+<li>http报文都有哪些内容？</li>
+<li>HTTP协议头含有哪些重要的部分，HTTP状态码？</li>
+<li>HTTP状态码状态码都有哪些？</li>
+<li>什么是强缓存？什么是弱缓存？</li>
+<li>浏览器的现缓存机制是什么？如何设置HTTP缓存？</li>
+<li>你知道有哪些HTTP方法？POST 和 PUT 有什么区别？</li>
+<li>如何对数据进行压缩（ZLIB），Gzip? 压缩的范围是什么，请求头会压缩吗？</li>
+<li>跨域，为什么JS会对跨域做出限制？如何允许跨域?</li>
+</ul>
+<p>基础： </p>
+<ul>
+<li>影响网速的原因有哪些？</li>
+<li>网络丢包的主要原因是什么？</li>
+<li>网络体系结构的五层参考模型都是什么？它们之间的关系是什么？</li>
+<li>我们常听到报文、段（分组）、数据报、帧、和数据包，它们有什么关系？</li>
+<li>Ajax能发送http请求，它和http有什么样的关系？</li>
+<li>HTTP1.0 到 http1.1 解决了什么问题？</li>
+<li>http2有什么特性？</li>
+<li>http1.1为什么会有队首阻塞？SSL与TLS关系？HTTPS协议如何实现？</li>
+</ul>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="https://www.cnblogs.com/myseries/p/11239662.html" target="_blank" rel="noopener">https://www.cnblogs.com/myseries/p/11239662.html</a><br><a href="https://www.jianshu.com/p/e544b7a76dac" target="_blank" rel="noopener">https://www.jianshu.com/p/e544b7a76dac</a>  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/" data-id="ckc0jvy3w0000psgb8dyh6tzp" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/">HTTP客户端识别与Cookie机制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/">vue-hooks学习笔记（含源码解读）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/">常用markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/">TCP与IP学习</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/">http基础知识，你真的都会了吗</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

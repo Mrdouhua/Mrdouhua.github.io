@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>HTTP客户端识别与Cookie机制 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="HTTP识别用户的几种技巧  承载用户身份信息的HTTP首部 客户端IP地址跟踪，通过用户的IP地址对其进行识别 用户登录，用认证方式识别用户 胖URL，一种在URL中潜入识别信息的技术 cookie，一种强大高效的持久身份识别技术  一，承载用户相关信息的HTTP首部   from 用户的email地址少用 user-agent 用户的浏览器软件将用户所用的浏览器信息告知服务器 referer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP客户端识别与Cookie机制">
+<meta property="og:url" content="http://yoursite.com/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="HTTP识别用户的几种技巧  承载用户身份信息的HTTP首部 客户端IP地址跟踪，通过用户的IP地址对其进行识别 用户登录，用认证方式识别用户 胖URL，一种在URL中潜入识别信息的技术 cookie，一种强大高效的持久身份识别技术  一，承载用户相关信息的HTTP首部   from 用户的email地址少用 user-agent 用户的浏览器软件将用户所用的浏览器信息告知服务器 referer">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2db73eee7?w=987&h=330&f=png&s=111846">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2dbdad56a?w=637&h=315&f=png&s=19264">
+<meta property="article:published_time" content="2020-06-29T13:15:25.047Z">
+<meta property="article:modified_time" content="2020-06-29T13:15:34.640Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2db73eee7?w=987&h=330&f=png&s=111846">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-HTTP客户端识别与Cookie机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2020-06-29T13:15:25.047Z" itemprop="datePublished">2020-06-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP客户端识别与Cookie机制
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>HTTP识别用户的几种技巧</p>
+<ul>
+<li>承载用户身份信息的HTTP首部</li>
+<li>客户端IP地址跟踪，通过用户的IP地址对其进行识别</li>
+<li>用户登录，用认证方式识别用户</li>
+<li>胖URL，一种在URL中潜入识别信息的技术</li>
+<li>cookie，一种强大高效的持久身份识别技术</li>
+</ul>
+<h2 id="一，承载用户相关信息的HTTP首部"><a href="#一，承载用户相关信息的HTTP首部" class="headerlink" title="一，承载用户相关信息的HTTP首部"></a>一，承载用户相关信息的HTTP首部</h2><blockquote>
+</blockquote>
+<ul>
+<li>from 用户的email地址<br>少用</li>
+<li>user-agent 用户的浏览器软件<br>将用户所用的浏览器信息告知服务器</li>
+<li>referer 用户是从这个页面跳转过来的<br>提供用户来源页的URL</li>
+<li>anthorization 用户名和密码 </li>
+<li>client-ip 客户端ip </li>
+<li>x-forwarded-for 客户端ip </li>
+<li>cookie 服务器生成的id标签</li>
+</ul>
+<p>　</p>
+<h2 id="二，客户端IP地址"><a href="#二，客户端IP地址" class="headerlink" title="二，客户端IP地址"></a>二，客户端IP地址</h2><p>早期web先锋尝试将客户端IP地址作为一种表示形式使用<br><strong>缺点：</strong></p>
+<blockquote>
+</blockquote>
+<p>使用ip来标识客户端，存在很多缺点。<br>客户端ip描述的是机器，不是用户。<br>很多因特网机器是动态随机分配ip。<br>如果通过代理和网关访问服务器，那么得到的是代理的ip，而不是客户端的。</p>
+<p>　</p>
+<h2 id="三，用户登录"><a href="#三，用户登录" class="headerlink" title="三，用户登录"></a>三，用户登录</h2><p>直接主动让用户登录来识别用户，作为标识。<br>可以向浏览器发送一条http响应代码是401 Login Required，并添加www-authentication首部，<br>然后浏览器就会显示一个登录对话框。只要用户输入对了用户名和密码，服务器就可以识别用户了。<br>浏览器每次在请求中，向服务器发送authorization首部作为一种身份的标志。<br><strong>缺点：</strong><br>登陆多个web站点太繁琐，站点浏览跳转时需要在每个站点登陆，还可能需要记住不同密码。</p>
+<p>　</p>
+<h2 id="四，胖URL"><a href="#四，胖URL" class="headerlink" title="四，胖URL"></a>四，胖URL</h2><p>web站点为每个用户生成特定的URL来追踪用户的身份，一般是对真正的URL进行拓展，在URL开始或结束的地方追加一些状态信息<br>这种包含了用户状态信息的URL称为胖URL<br><strong>缺点：</strong></p>
+<ul>
+<li>丑陋的URL</li>
+<li>无法共享URL<br>因为url中有用户信息，共享会透露个人信息</li>
+<li>破坏缓存<br>每个人的URL都不一样，所以不需要缓存了</li>
+<li>额外的服务器负荷</li>
+<li>非持久</li>
+</ul>
+<p>　</p>
+<h2 id="五，cookie"><a href="#五，cookie" class="headerlink" title="五，cookie"></a>五，cookie</h2><p>cookie是当前用户识别，实现持久会话最好的方式</p>
+<h4 id="cookie类型"><a href="#cookie类型" class="headerlink" title="cookie类型"></a>cookie类型</h4><ul>
+<li>会话cookie<br>浏览器退出，会话cookie就会删除</li>
+<li>持久cookie<br>在设置的时间内不会删除</li>
+</ul>
+<h4 id="cookie是如何工作的"><a href="#cookie是如何工作的" class="headerlink" title="cookie是如何工作的"></a>cookie是如何工作的</h4><blockquote>
+</blockquote>
+<p>用户首次访问站点的时候，web服务器对用户一无所知。web服务器希望这个用户会再次回来，所以给这个<br>用户一个独有的cookie。cookie中包含了一个由名字=值构成的任意列表。通过设置set-cookie，或<br>set-cookie2http响应首部，设置cookie值。浏览器会记住从服务器返回的set-cookie首部中的内容，<br>并将cookie集存储到浏览器的cookie数据库中。将来用户访问同一个站点时，浏览器会将cookie中的值<br>放在cookie首部，传给服务器。</p>
+<p>　</p>
+<h4 id="cookie灌：客户端状态"><a href="#cookie灌：客户端状态" class="headerlink" title="cookie灌：客户端状态"></a>cookie灌：客户端状态</h4><p>cookie的基本思想就是让浏览器积累一组服务器的信息，每次访问服务器，都将这些信息提供给他。<br>因此浏览器要负责存储cookie信息，所以称之为客户端状态。</p>
+<ul>
+<li>网景的cookie 网景将cookie存储在一个名为cookie.txt的文本文件中。每一行代表一个cookie，有7个tab分割的字段。<br><img src="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2db73eee7?w=987&h=330&f=png&s=111846" alt=""></li>
+<li>微软的internet explorer的cookie<br>微软的IE讲cookie储存在高速缓存目录下独立的文本文件中</li>
+</ul>
+<h4 id="不同站点使用不同的cookie"><a href="#不同站点使用不同的cookie" class="headerlink" title="不同站点使用不同的cookie"></a>不同站点使用不同的cookie</h4><p>浏览器内部的cookie罐中可以有成百上千个cookie,但浏览器不会将每个cookie都发送给所有的站点，实际上，通常只向每个站点发送２－３个cookie,原因如下：</p>
+<ul>
+<li>对所有这些cookie字节进行传输会严重降低性能。</li>
+<li>cookie中包含的服务器特有的名值对，所以对大部分站点来说，大多数cookie都只是无法识别的误用数据</li>
+<li>将所有的cookie发送给所有站点会引发潜在的隐私问题。</li>
+</ul>
+<p>总之，浏览器只向服务器发送服务器产生的那些cookie。</p>
+<h5 id="cookie的域属性"><a href="#cookie的域属性" class="headerlink" title="cookie的域属性"></a>cookie的域属性</h5><p>产生cookie的服务器可以向set-cookie响应首部添加一个Domain属性来控制哪些站点可以看到那些cookie,</p>
+<h5 id="cookie路径属性"><a href="#cookie路径属性" class="headerlink" title="cookie路径属性"></a>cookie路径属性</h5><p>cookie规范甚至允许用户将cookie与部分web站点关联起来，可以通过Path属性来实现这一功能，在这个属性列出的URL路径前缀下所有的cookie都是有效的。因此cookie就是由服务器贴到客户端上，由客户端维护的状态片段，只会回送给那些合适的站点，下面我们来更仔细地看看cookie的技术和标准。</p>
+<h4 id="cookie成分"><a href="#cookie成分" class="headerlink" title="cookie成分"></a>cookie成分</h4><p>cookie0与cookie1</p>
+<p><strong>cookie0：</strong></p>
+<blockquote>
+</blockquote>
+<p>name=value 服务器可以创建任意的name=value关联<br>expires 可选的，过期时间<br>domain 可选的，浏览器只向指定的域中的服务器主机名发送cookie。如果没有设置，就默认产生set-cookie响应的服务器主机名。<br>path 可选的，可以为服务器上特定的文档产生cookie。如果没有设置，默认是产生这个响应的url的路径。<br>secure 可选的，只有在使用ssl，才会发送cookie。</p>
+<p>客户端发送请求时，会将所有与域、路径、和安全过滤器相匹配的、未过期的cookie都发送给这个站点。</p>
+<p>　<br><strong>cookie：</strong></p>
+<blockquote>
+</blockquote>
+<p>允许浏览器退出时，强制销毁cookie<br>使用相对秒数，来控制cookie的生存时间<br>通过url端口号，控制cookie作用域<br>为实现互操作性，实现的版本号</p>
+<p>　</p>
+<h4 id="cookie会话跟踪"><a href="#cookie会话跟踪" class="headerlink" title="cookie会话跟踪"></a>cookie会话跟踪</h4><p>可以用cookie在用户与某个web站点进行多项事物处理时对用户进行跟踪，电子商务web站点用会话cookie在用户浏览时记录下用户购物车信息。</p>
+<h4 id="cookie与缓存"><a href="#cookie与缓存" class="headerlink" title="cookie与缓存"></a>cookie与缓存</h4><ul>
+<li>要特别小心，不能分配用过的cookie，不能向用户展示其他人私有文档的内容</li>
+<li>如果向多个用户发送了相同的SetCookier首部，可能会破坏用户的定位</li>
+</ul>
+<h4 id="cookie，安全性和隐私"><a href="#cookie，安全性和隐私" class="headerlink" title="cookie，安全性和隐私"></a>cookie，安全性和隐私</h4><p>cookie是可以禁止的，并且可以通过日志分析和其他方式实现大部分跟踪记录。cookie自身不是很大的安全隐患。<br>但是潜在的滥用情况，总是存在的。第三方站点使用持久cookie跟踪用户就是一种最大的滥用。<em>这种与ip地址和<br>referer首部结合起来，营销公司就可以构建相当准确的用户档案和浏览模式</em>。<br>如果小心的使用cookie，那么cookie带来的好处还是要大于风险的。</p>
+<h2 id="javascript设置，读取，删除cookie方法"><a href="#javascript设置，读取，删除cookie方法" class="headerlink" title="javascript设置，读取，删除cookie方法"></a>javascript设置，读取，删除cookie方法</h2><p>JavaScript是运行在客户端的脚本，因此一般是不能够设置Session的，因为Session是运行在服务器端的。<br>而cookie是运行在客户端的，所以可以用JS来设置cookie.<br>cookie是以键值对的形式保存的，即key=value的格式。各个cookie之间一般是以“;”分隔。</p>
+<h4 id="JS设置cookie"><a href="#JS设置cookie" class="headerlink" title="JS设置cookie"></a>JS设置cookie</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.cookie&#x3D;&quot;name&#x3D;&quot;+username;</span><br><span class="line">&#x2F;&#x2F; 加上终止时间</span><br><span class="line">document.cookie &#x3D; name + &quot;&#x3D;&quot;+ escape (value) + &quot;;expires&#x3D;&quot; + exp.toGMTString();</span><br></pre></td></tr></table></figure>
+
+<h4 id="JS读取cookie"><a href="#JS读取cookie" class="headerlink" title="JS读取cookie"></a>JS读取cookie</h4><p>直接document.cookie就可以获取，但要获取指定名称的cookie值需要这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 该函数返回名称为name的cookie值，如果不存在则返回空，其实现如下： </span><br><span class="line">&lt;script language&#x3D;&quot;JavaScript&quot; type&#x3D;&quot;text&#x2F;javascript&quot;&gt; </span><br><span class="line">&lt;!-- </span><br><span class="line">function getCookie(name)&#123; </span><br><span class="line">var strCookie&#x3D;document.cookie; </span><br><span class="line">var arrCookie&#x3D;strCookie.split(&quot;; &quot;); </span><br><span class="line">for(var i&#x3D;0;i&lt;arrCookie.length;i++)&#123; </span><br><span class="line">var arr&#x3D;arrCookie[i].split(&quot;&#x3D;&quot;); </span><br><span class="line">if(arr[0]&#x3D;&#x3D;name)return arr[1]; </span><br><span class="line">&#125; </span><br><span class="line">return &quot;&quot;; </span><br><span class="line">&#125; </span><br><span class="line">&#x2F;&#x2F;--&gt; </span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除cookie"><a href="#删除cookie" class="headerlink" title="删除cookie"></a>删除cookie</h4><p>为了删除一个cookie，可以将其过期时间设定为一个过去的时间，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;获取当前时间</span><br><span class="line">var date&#x3D;new Date();</span><br><span class="line">&#x2F;&#x2F;将date设置为过去的时间</span><br><span class="line">date.setTime(date.getTime()-10000);</span><br><span class="line">&#x2F;&#x2F;将userId这个cookie删除</span><br><span class="line">document.cookie&#x3D;&quot;userId&#x3D;828; expires&#x3D;&quot;+date.toGMTString();</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法封装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var cookie &#x3D; &#123;</span><br><span class="line">    set:function(key,val,time)&#123;&#x2F;&#x2F;设置cookie方法</span><br><span class="line">        var date&#x3D;new Date(); &#x2F;&#x2F;获取当前时间</span><br><span class="line">        var expiresDays&#x3D;time;  &#x2F;&#x2F;将date设置为n天以后的时间</span><br><span class="line">        date.setTime(date.getTime()+expiresDays*24*3600*1000); &#x2F;&#x2F;格式化为cookie识别的时间</span><br><span class="line">        document.cookie&#x3D;key + &quot;&#x3D;&quot; + val +&quot;;expires&#x3D;&quot;+date.toGMTString();  &#x2F;&#x2F;设置cookie</span><br><span class="line">    &#125;,</span><br><span class="line">    get:function(key)&#123;&#x2F;&#x2F;获取cookie方法</span><br><span class="line">        &#x2F;*获取cookie参数*&#x2F;</span><br><span class="line">        var getCookie &#x3D; document.cookie.replace(&#x2F;[ ]&#x2F;g,&quot;&quot;);  &#x2F;&#x2F;获取cookie，并且将获得的cookie格式化，去掉空格字符</span><br><span class="line">        var arrCookie &#x3D; getCookie.split(&quot;;&quot;)  &#x2F;&#x2F;将获得的cookie以&quot;分号&quot;为标识 将cookie保存到arrCookie的数组中</span><br><span class="line">        var tips;  &#x2F;&#x2F;声明变量tips</span><br><span class="line">        for(var i&#x3D;0;i&lt;arrCookie.length;i++)&#123;   &#x2F;&#x2F;使用for循环查找cookie中的tips变量</span><br><span class="line">            var arr&#x3D;arrCookie[i].split(&quot;&#x3D;&quot;);   &#x2F;&#x2F;将单条cookie用&quot;等号&quot;为标识，将单条cookie保存为arr数组</span><br><span class="line">            if(key&#x3D;&#x3D;arr[0])&#123;  &#x2F;&#x2F;匹配变量名称，其中arr[0]是指的cookie名称，如果该条变量为tips则执行判断语句中的赋值操作</span><br><span class="line">                tips&#x3D;arr[1];   &#x2F;&#x2F;将cookie的值赋给变量tips</span><br><span class="line">                break;   &#x2F;&#x2F;终止for循环遍历</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">      delete:function(key)&#123; &#x2F;&#x2F;删除cookie方法</span><br><span class="line">         var date &#x3D; new Date(); &#x2F;&#x2F;获取当前时间</span><br><span class="line">         date.setTime(date.getTime()-10000); &#x2F;&#x2F;将date设置为过去的时间</span><br><span class="line">         document.cookie &#x3D; key + &quot;&#x3D;v; expires &#x3D;&quot; +date.toGMTString();&#x2F;&#x2F;设置cookie</span><br><span class="line">        &#125;</span><br><span class="line">        return tips;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用方式：<br>cookie.get(“uesr”); // 获取键名为user的cookie</p>
+<h2 id="cookies-sessionStorage和localStorage的区别"><a href="#cookies-sessionStorage和localStorage的区别" class="headerlink" title="cookies,sessionStorage和localStorage的区别"></a>cookies,sessionStorage和localStorage的区别</h2><p>以前持久化的存储一些有用的数据一般是通过服务器端的数据库或者浏览器端的cookie来实现</p>
+<p>随着HTML5的出现，web开发又有了两种选择：Web Storage和Web SQL Database.</p>
+<p>Web Storage有两种形式<br>localStorage（本地存储）和sessionStorage（会话存储）</p>
+<ul>
+<li>localStorage：浏览器关闭了数据仍然可以保存下来，并可用于所有同源（相同的域名、协议和端口）窗口（或标签页）永久存储，永不失效，除非手动删除</li>
+<li>sessionStorage：数据存储在窗口对象中，窗口关闭后对应的窗口对象消失，存储的数据也会丢失。就是浏览器窗口关闭就失效了。</li>
+</ul>
+<p><strong>使用</strong><br>使用 local storage和session storage主要通过在js中操作这两个对象来实现，分别为window.localStorage和window.sessionStorage. 这两个对象均是Storage类的两个实例，<br>Storage类的属性和方法。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/6/24/172e40f2dbdad56a?w=637&h=315&f=png&s=19264" alt="Paste_Image.png"></p>
+<h2 id="cookie与session的区别于联系"><a href="#cookie与session的区别于联系" class="headerlink" title="cookie与session的区别于联系"></a>cookie与session的区别于联系</h2><ul>
+<li>cookie与session的区别：cookie数据保存在客户端，session数据保存在服务器端</li>
+<li>cookie和session的共同之处：cookie和session都是用来跟踪浏览器用户身份的会话方式。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/" data-id="ckc0jvy490002psgb8uoxd0cg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue-hooks学习笔记（含源码解读）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/">HTTP客户端识别与Cookie机制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/">vue-hooks学习笔记（含源码解读）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/">常用markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/">TCP与IP学习</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/">http基础知识，你真的都会了吗</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
