@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      JavaScript事件处理机制 | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="js事件流分为事件捕获流与事件冒泡流事件捕获是从DOM树最顶部元素到相应元素事件冒泡是从相应元素到DOM树最顶部元素 现在W3C标准合并了两种流，DOM标准同时支持两种事件模型，即捕获型事件与冒泡型事件，但是，捕获型事件先发生。两种事件流都会触发DOM中的所有对象，从document对象开始，也在document对象结束 但是，对于IE8及更低版本IE，不支持捕获阶段，因此捕获阶段的事件监听目前尚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript事件处理机制 | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2020/06/30/JavaScript%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="js事件流分为事件捕获流与事件冒泡流事件捕获是从DOM树最顶部元素到相应元素事件冒泡是从相应元素到DOM树最顶部元素 现在W3C标准合并了两种流，DOM标准同时支持两种事件模型，即捕获型事件与冒泡型事件，但是，捕获型事件先发生。两种事件流都会触发DOM中的所有对象，从document对象开始，也在document对象结束 但是，对于IE8及更低版本IE，不支持捕获阶段，因此捕获阶段的事件监听目前尚">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2015490-fb2276a01edd67bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-06-30T01:53:47.969Z">
+<meta property="article:modified_time" content="2020-06-30T01:54:18.447Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2015490-fb2276a01edd67bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">JavaScript事件处理机制</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-30" class="post-meta__date date">2020-06-30</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>js事件流分为<strong>事件捕获流</strong>与<strong>事件冒泡流</strong><br>事件捕获是从DOM树最顶部元素到相应元素<br>事件冒泡是从相应元素到DOM树最顶部元素</p>
+<p>现在W3C标准合并了两种流，DOM标准同时支持两种事件模型，即捕获型事件与冒泡型事件，但是，捕获型事件先发生。两种事件流都会触发DOM中的所有对象，从document对象开始，也在document对象结束<br><img src="http://upload-images.jianshu.io/upload_images/2015490-fb2276a01edd67bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>但是，对于IE8及更低版本IE，不支持捕获阶段，因此捕获阶段的事件监听目前尚不通用。</p>
+<p><strong>事件处理方法形式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function eventHandler(e) &#123;  </span><br><span class="line">    e &#x3D; e || window.event;  </span><br><span class="line">    var target &#x3D; e.target || e.srcElement;  </span><br><span class="line">    ... ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注册事件监听方法</strong></p>
+<ul>
+<li>直接写在HTML的DOM元素的属性里<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button id&#x3D;&quot;btn&quot; onclick&#x3D;&quot;alert(123)&quot;&gt;CLICK&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure></li>
+<li>在Javascript中，赋值给相应的DOM元素<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&#39;btn2&#39;).onclick &#x3D; eventHandler;</span><br></pre></td></tr></table></figure></li>
+<li>addEventListener || attachEvent<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var EventUtil &#x3D; &#123;</span><br><span class="line">	addHandler: function(element, type, handler) &#123;</span><br><span class="line">		if (element.addEventListener) &#123;</span><br><span class="line">			element.addEventListener(type, handler, false);</span><br><span class="line">		&#125; else if (element.attachEvent) &#123;</span><br><span class="line">			element.attachEvent(&quot;on&quot; + type, handler);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			element[&quot;on&quot; + type] &#x3D; handler;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	getEvent: function(event) &#123;</span><br><span class="line">		return event ? event : window.event;</span><br><span class="line">	&#125;,</span><br><span class="line">	getTarget: function(event) &#123;</span><br><span class="line">		return event.target || event.srcElement;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+这里第三个参数是标识何时触发eventHandler，false表示在事件起泡阶段触发，true表示在事件捕获阶段触发。因为在IE8即更低版本不支持事件捕获，因此不经常使用true。<br>可以给同一个控件调用多次此注册方法，注册多个handler。<br>removeEventListener与之对应。<br>在IE8及更低版本IE中，使用attachEvent方法</li>
+</ul>
+<h4 id="阻止浏览器默认操作"><a href="#阻止浏览器默认操作" class="headerlink" title="阻止浏览器默认操作"></a>阻止浏览器默认操作</h4><ul>
+<li>对于通过第一种、第二种方法注册的监听方法： return false</li>
+<li>对于通过第三种方法注册的监听方法，返回值无效，可以通过event.preventDefault()来阻止浏览器的默认操作。对于IE8即更低版本IE，不支持preventDefault方法，只能通过event.returnValue=false来实现。<br>对于阻止事件冒泡：e.stopPropagation();</li>
+</ul>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

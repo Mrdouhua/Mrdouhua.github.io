@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      webpack学习 | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="webpack概念  entry output loader plugin optimization &#x2F;&#x2F; webpack4 externals modedevelopment 或 production  entry单页面入口 1234567const config &#x3D; &amp;#123;  entry: &amp;#123;    pageOne: &#39;.&#x2F;src&#x2F;page">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack学习 | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2020/06/30/webpack%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="webpack概念  entry output loader plugin optimization &#x2F;&#x2F; webpack4 externals modedevelopment 或 production  entry单页面入口 1234567const config &#x3D; &amp;#123;  entry: &amp;#123;    pageOne: &#39;.&#x2F;src&#x2F;page">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-30T02:26:23.620Z">
+<meta property="article:modified_time" content="2020-06-30T02:26:44.601Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">webpack学习</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-30" class="post-meta__date date">2020-06-30</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>webpack概念</p>
+<ul>
+<li>entry</li>
+<li>output</li>
+<li>loader</li>
+<li>plugin</li>
+<li>optimization // webpack4</li>
+<li>externals</li>
+<li>mode<br>development 或 production</li>
+</ul>
+<h2 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h2><p>单页面入口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const config &#x3D; &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    pageOne: &#39;.&#x2F;src&#x2F;pageOne&#x2F;index.js&#39;,</span><br><span class="line">    pageTwo: &#39;.&#x2F;src&#x2F;pageTwo&#x2F;index.js&#39;,</span><br><span class="line">    pageThree: &#39;.&#x2F;src&#x2F;pageThree&#x2F;index.js&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>多页面片</p>
+<blockquote>
+<p>filename 用于输出文件的文件名。<br>目标输出目录 path 的绝对路径。  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const config &#x3D; &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    pageOne: &#39;.&#x2F;src&#x2F;pageOne&#x2F;index.js&#39;,</span><br><span class="line">    pageTwo: &#39;.&#x2F;src&#x2F;pageTwo&#x2F;index.js&#39;,</span><br><span class="line">    pageThree: &#39;.&#x2F;src&#x2F;pageThree&#x2F;index.js&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="output"><a href="#output" class="headerlink" title="output"></a>output</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const config &#x3D; &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#39;bundle.js&#39;,</span><br><span class="line">    path: &#39;&#x2F;home&#x2F;proj&#x2F;public&#x2F;assets&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; config;</span><br></pre></td></tr></table></figure>
+<p>多页面片入口起点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: &#39;.&#x2F;src&#x2F;app.js&#39;,</span><br><span class="line">    search: &#39;.&#x2F;src&#x2F;search.js&#39;</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#39;[name].js&#39;,</span><br><span class="line">    path: __dirname + &#39;&#x2F;dist&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="mode-模式"><a href="#mode-模式" class="headerlink" title="mode 模式"></a>mode 模式</h2><p>提供 mode 配置选项，告知 webpack 使用相应模式的内置优化。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  mode: &#39;production&#39;</span><br><span class="line">&#125;;</span><br><span class="line">&#x2F;&#x2F; 或者</span><br><span class="line">或者从 CLI 参数中传递：  </span><br><span class="line">webpack --mode&#x3D;production</span><br></pre></td></tr></table></figure>
+
+<h2 id="loader"><a href="#loader" class="headerlink" title="loader"></a>loader</h2><p>loader 用于对模块的源代码进行转换。loader 可以使你在 import 或”加载”模块时预处理文件。因此，loader 类似于其他构建工具中“任务(task)”，并提供了处理前端构建步骤的强大方法。loader 可以将文件从不同的语言（如 TypeScript）转换为 JavaScript，或将内联图像转换为 data URL。loader 甚至允许你直接在 JavaScript 模块中 import CSS文件！  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; test: &#x2F;\.css$&#x2F;, use: &#39;css-loader&#39; &#125;,</span><br><span class="line">      &#123; test: &#x2F;\.ts$&#x2F;, use: &#39;ts-loader&#39; &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="插件-plugins"><a href="#插件-plugins" class="headerlink" title="插件(plugins)"></a>插件(plugins)</h2><p>插件目的在于解决 loader 无法实现的其他事  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plugins: [</span><br><span class="line">    new webpack.optimize.UglifyJsPlugin(),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;template: &#39;.&#x2F;src&#x2F;index.html&#39;&#125;)</span><br><span class="line">  ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建目标-targets"><a href="#构建目标-targets" class="headerlink" title="构建目标(targets)"></a>构建目标(targets)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  target: &#39;node&#39; &#x2F;&#x2F; 默认为web</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="devServer本地服务器"><a href="#devServer本地服务器" class="headerlink" title="devServer本地服务器"></a>devServer本地服务器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">        contentBase: &quot;.&#x2F;dist&quot;, &#x2F;&#x2F; 本地服务器所加载文件的目录</span><br><span class="line">        port: &quot;8088&quot;,  &#x2F;&#x2F; 设置端口号为8088</span><br><span class="line">        inline: true, &#x2F;&#x2F; 文件修改后实时刷新</span><br><span class="line">        historyApiFallback: true, &#x2F;&#x2F;不跳转</span><br><span class="line">        hot: true &#x2F;&#x2F; 热更新</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="模块热替换"><a href="#模块热替换" class="headerlink" title="模块热替换"></a>模块热替换</h2><p>HMR  </p>
+<h2 id="Source-Maps调试配置"><a href="#Source-Maps调试配置" class="headerlink" title="Source Maps调试配置"></a>Source Maps调试配置</h2><p>作为开发，代码调试当然少不了，那么问题来了，经过打包后的文件，你是不容易找到出错的地方的，Source Map就是用来解决这个问题的</p>
+<h4 id="dirname"><a href="#dirname" class="headerlink" title="__dirname"></a>__dirname</h4><p>在任何模块文件内部，可以使用__dirname变量获取当前模块文件所在目录的完整绝对路径。  </p>
+<p>配置：  </p>
+<h4 id="configureWebpack"><a href="#configureWebpack" class="headerlink" title="configureWebpack"></a>configureWebpack</h4><blockquote>
+<p>如果这个值是一个对象，则会通过 webpack-merge 合并到最终的配置中。<br>如果这个值是一个函数，则会接收被解析的配置作为参数。该函数既可以修改配置并不返回任何东西，也可以返回一个被克隆或合并过的配置版本。  </p>
+</blockquote>
+<h2 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h2><p>在浏览器运行时，webpack 用来连接模块化的应用程序的所有代码。runtime 包含：在模块交互时，连接模块所需的加载和解析逻辑。包括浏览器中的已加载模块的连接，以及懒加载模块的执行逻辑。  </p>
+<h2 id="Manifest"><a href="#Manifest" class="headerlink" title="Manifest"></a>Manifest</h2><p>当编译器(compiler)开始执行、解析和映射应用程序时，它会保留所有模块的详细要点。这个数据集合称为 “Manifest”，当完成打包并发送到浏览器时，会在运行时通过 Manifest 来解析和加载模块。无论你选择哪种模块语法，那些 import 或 require 语句现在都已经转换为 <strong>webpack_require</strong> 方法  </p>
+<p>webpack.optimize.CommonsChunkPlugin来帮我们分离代码，将mainfest、第三方库包，业务代码独立成三个文件  </p>
+<p>1.runtime</p>
+<p>在浏览器运行时,webpack用来连接模块化的应用程序的所有代码 runtime包含:</p>
+<p>在模块交互时,连接模块所需的加载和解析逻辑<br>包括浏览器中的已加载模块的连接,以及懒加载模块的执行逻辑  </p>
+<p>2.manifest</p>
+<p>manifest数据用来管理生成的index.html文件和bundle以及各种资源,把他们加载到浏览器中</p>
+<p>当编译器开始执行、解析和映射应用程序,会保留所有模块的详细要点. 这个集合称为Manifest</p>
+<p>打包完成发送到浏览器 运行时通过Manifest来解析和加载模块 import 或require语句转换为 webpack require 方法 此方法指向模块标识符 通过manifest 中的数据 runtime 将能够查询模块标识符,检索出背后对应的模块</p>
+<h4 id="chainWebpack"><a href="#chainWebpack" class="headerlink" title="chainWebpack"></a>chainWebpack</h4><p>是一个函数，会接收一个基于 webpack-chain 的 ChainableConfig 实例。允许对内部的 webpack 配置进行更细粒度的修改。</p>
+<h2 id="webpack3和webpack4对比"><a href="#webpack3和webpack4对比" class="headerlink" title="webpack3和webpack4对比"></a>webpack3和webpack4对比</h2><p>1.替换插件 extract-text-webpack-plugin，使用 webpack4 推荐使用的插件mini-css-extract-plugin<br>2.在 webpack4 中不再支持 CommonsChunkPlugin，而是使用 splitChunks 替代  </p>
+<ul>
+<li>CommonsChunkPlugin 会提取一些我们不需要的代码  </li>
+<li>它在异步模块上效率低下</li>
+<li>splitChunks它不会打包不需要的模块</li>
+<li>splitChunks对异步模块有效（默认情况下是打开的）<br>webpack 4 已经废除了 之前 UglifyJsPlugin,用 optimization.minimize 替代  <h2 id="vue-cli3使用"><a href="#vue-cli3使用" class="headerlink" title="vue-cli3使用"></a>vue-cli3使用</h2></li>
+</ul>
+<h2 id="webpack多页面片"><a href="#webpack多页面片" class="headerlink" title="webpack多页面片"></a>webpack多页面片</h2><p>webpack3/4大致差不多，只是部分插件不一样</p>
+<ul>
+<li>entry单页面片 ‘./src/index.html’，多页面片<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: &#39;.&#x2F;src&#x2F;app.js&#39;,</span><br><span class="line">    search: &#39;.&#x2F;src&#x2F;search.js&#39;</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#39;[name].js&#39;,</span><br><span class="line">    path: __dirname + &#39;&#x2F;dist&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>htmlWebpackPlugins</li>
+<li>使用 CommonsChunkPlugin 为每个页面间的应用程序共享代码创建 bundle。由于入口起点增多，多页应用能够复用入口起点之间的大量代码/模块，从而可以极大地从这些技术中受益。</li>
+</ul>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

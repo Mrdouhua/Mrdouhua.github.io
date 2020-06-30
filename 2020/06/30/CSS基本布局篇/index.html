@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      CSS基本布局篇 | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="水平垂直居中很多方法都会受浮动影响  单行已知宽高 12text-align:center;inline-height: 50px; 已知字元素宽高 1234567891011.parent&amp;#123;    position: reletive;&amp;#125;.child &amp;#123;    position: absolute&#x2F;relative;    left: 50%;    to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS基本布局篇 | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2020/06/30/CSS%E5%9F%BA%E6%9C%AC%E5%B8%83%E5%B1%80%E7%AF%87/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="水平垂直居中很多方法都会受浮动影响  单行已知宽高 12text-align:center;inline-height: 50px; 已知字元素宽高 1234567891011.parent&amp;#123;    position: reletive;&amp;#125;.child &amp;#123;    position: absolute&#x2F;relative;    left: 50%;    to">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-30T02:26:57.811Z">
+<meta property="article:modified_time" content="2020-06-30T02:27:26.575Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">CSS基本布局篇</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-30" class="post-meta__date date">2020-06-30</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h2><p>很多方法都会受浮动影响</p>
+<ul>
+<li><p>单行已知宽高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">text-align:center;</span><br><span class="line">inline-height: 50px;</span><br></pre></td></tr></table></figure></li>
+<li><p>已知字元素宽高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: reletive;</span><br><span class="line">&#125;</span><br><span class="line">.child &#123;</span><br><span class="line">    position: absolute&#x2F;relative;</span><br><span class="line">    left: 50%;</span><br><span class="line">    top: 50%;</span><br><span class="line">    margin: -50px 0 0 -50px;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>margin:auto;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.parent&#123;</span><br><span class="line">    position: reletive;</span><br><span class="line">&#125;</span><br><span class="line">.child &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    left: 0;</span><br><span class="line">    top: 0;</span><br><span class="line">    tight: 0;</span><br><span class="line">    b0ttom: 0;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    margin:auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>未知宽高<br>用css3 transform: translate(-50%, -50%);</p>
+</li>
+<li><p>table-cell表格实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">display: table-cell;</span><br><span class="line">vertical-align: middle;</span><br><span class="line">text-align: center;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="两栏布局"><a href="#两栏布局" class="headerlink" title="两栏布局"></a>两栏布局</h2><ul>
+<li>浮动<br>left左浮动，right不浮动，margin/padding-left</li>
+<li>绝对定位<br>方式和浮动一样</li>
+<li>表格布局<br>wrap: table, child:table-cell</li>
+<li>flex布局</li>
+</ul>
+<h2 id="圣杯布局"><a href="#圣杯布局" class="headerlink" title="圣杯布局"></a>圣杯布局</h2><p>1、将middle首先放在container的子元素第一个，然后是left，right,同时设置三者float:left；</p>
+<p>2、middle要自适应，需要设置width:100%；让left部分和middle处于一行，要是用margin-left:-100%;</p>
+<p>3、此时left部分会遮盖middle的内容，将middle部分收缩起来，设置其父元素container内边距，padding：0 200px;</p>
+<p>4、left部分内容随同middle收缩，占据middle一部分，需要设置left部分使用相对定位，独立于middle，left:-200px;</p>
+<p>5、同理right部分放置middle右部分，需要设置其相对定位、宽度和margin-left、right值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;圣杯布局&lt;&#x2F;title&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">　　body&#123;</span><br><span class="line">　　　　margin:auto;</span><br><span class="line">　　　　text-align: center;</span><br><span class="line">　　&#125;</span><br><span class="line">　　.container&#123;</span><br><span class="line">　　　　overflow: hidden;</span><br><span class="line">　　　　margin:10px 0;</span><br><span class="line">　　　　padding: 0 200px 0 205px;</span><br><span class="line">　　&#125;</span><br><span class="line">　　.left&#123;</span><br><span class="line">　　　　float: left;</span><br><span class="line">　　　　position: relative;</span><br><span class="line">　　　　margin-left: -100%;</span><br><span class="line">　　　　left: -210px;</span><br><span class="line">　　　　width: 205px;</span><br><span class="line">　　　　background-color:grey;</span><br><span class="line">　　&#125;</span><br><span class="line">　　.middle&#123;</span><br><span class="line">　　　　float: left;</span><br><span class="line">　　　　width: 100%;</span><br><span class="line">　　　　background-color: red;</span><br><span class="line">　　&#125;</span><br><span class="line">　　.right&#123;</span><br><span class="line">　　　　right: -210px;</span><br><span class="line">　　　　margin-left: -205px;</span><br><span class="line">　　　　width: 200px;</span><br><span class="line">　　　　float: left;</span><br><span class="line">　　　　position: relative;</span><br><span class="line">　　　　background-color: grey;</span><br><span class="line">　　&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">　　&lt;div class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">　　　　&lt;div class&#x3D;&quot;middle&quot;&gt;middle&lt;&#x2F;div&gt;</span><br><span class="line">　　　　&lt;div class&#x3D;&quot;left&quot;&gt;left&lt;&#x2F;div&gt;</span><br><span class="line">　　　　&lt;div class&#x3D;&quot;right&quot;&gt;right&lt;&#x2F;div&gt;</span><br><span class="line">　　&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">## 双飞翼布局</span><br><span class="line">1、将middle首先放在container的子元素第一个，然后是left，right,同时设置三者float:left；</span><br><span class="line"></span><br><span class="line">2、middle要自适应，需要设置width:100%；让left部分和middle处于一行，要是用margin-left:-100%;，right使用margin-left:-190px;</span><br><span class="line"></span><br><span class="line">3、此时middle的内容被覆盖，要把middle的内容拉出来，除了使用外围container的padding，还可以考虑使用margin，给middle增加一个内层div -- middle_content, 然后设置 margin:0 200px</span><br></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main">
+            <div class="inner">
+                main
+            </div>
+        </div>
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+     <style>
+        .main,.left,.right{
+            height: 100px;
+            float: left;
+        }
+        .main{
+            width: 100%;
+            background-color: aqua;
+        }
+        .left{
+            width:120px;
+            margin-left: -100%;
+            background-color:cornflowerblue;
+        }
+        .right{
+            width: 120px;
+            margin-left: -120px;
+            background-color: cadetblue;
+        }
+        .inner{
+            margin-left:120px;
+            margin-right: 120px;
+        }
+     </style>
+</body>
+```
+## flex布局
+- display:flex/inline-flex
+  - flex-direction  主轴方向
+  - flex-wrap  是否换行
+    - nowrap 不换行
+    - wrap  换行
+    - wrap-reverse  换行，第一行在上方
+  - flex-flow  是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap
+  - justify-content  水平方向排列
+    - flex-start
+    - flex-end
+    - center
+    - space-between
+    - space-around
+  - align-items  垂直方向  
+    - flex-start
+    - flex-end
+    - center
+    - baseline
+    - stretch
+  - align-content  根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+
+<ul>
+<li>子元素的属性<ul>
+<li>order</li>
+<li>flex-grow</li>
+<li>flex-shrink</li>
+<li>flex-basis</li>
+<li>flex</li>
+<li>align-self</li>
+</ul>
+</li>
+</ul>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

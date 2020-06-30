@@ -2,35 +2,196 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/</loc>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E5%8E%9F%E7%94%9Fjs%E5%B0%81%E8%A3%85ajax/</loc>
+    
+    <lastmod>2020-06-30T12:28:27.156Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/</loc>
+    
+    <lastmod>2020-06-30T11:48:51.606Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/archives/index.html</loc>
+    
+    <lastmod>2020-06-30T07:37:45.703Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/CSS%E5%9F%BA%E6%9C%AC%E5%B8%83%E5%B1%80%E7%AF%87/</loc>
+    
+    <lastmod>2020-06-30T02:27:26.575Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/webpack%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2020-06-30T02:26:44.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/2019%E8%85%BE%E8%AE%AF%E5%89%8D%E7%AB%AF%E6%8A%80%E6%9C%AF%E5%A4%A7%E4%BC%9A----SSR%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2020-06-30T02:19:48.227Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E6%89%8B%E6%9C%BA%E7%AB%AF%E4%BD%BF%E7%94%A8audio%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2020-06-30T02:17:49.148Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/vue3.0%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2020-06-30T02:16:55.411Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/PhotoShop%20CC%20Web%E5%88%87%E5%9B%BE%E7%95%8C%E9%9D%A2%E8%AE%BE%E7%BD%AE/</loc>
+    
+    <lastmod>2020-06-30T02:14:56.094Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/HTTP%20%E7%BC%93%E5%AD%98/</loc>
+    
+    <lastmod>2020-06-30T02:00:59.948Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/CSS3%20%E8%BF%87%E5%BA%A6%E4%B8%8E%E5%8A%A8%E7%94%BB/</loc>
+    
+    <lastmod>2020-06-30T02:00:47.047Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/CSS3%202D/</loc>
+    
+    <lastmod>2020-06-30T02:00:40.535Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/Web%20Workers%E5%AE%9E%E7%8E%B0javascript%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    
+    <lastmod>2020-06-30T02:00:26.084Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E6%B5%85%E8%B0%88html5%20WebRTC%EF%BC%88%E5%BE%85%E8%B7%9F%E6%96%B0%EF%BC%89/</loc>
+    
+    <lastmod>2020-06-30T02:00:10.196Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/html5%20%E9%80%9A%E4%BF%A1API(%E8%B7%9F%E6%96%B0%E4%B8%AD)/</loc>
+    
+    <lastmod>2020-06-30T02:00:00.607Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E6%89%A9%E5%B1%95%E7%9A%84XMLHttpRequest%20API/</loc>
+    
+    <lastmod>2020-06-30T01:59:30.052Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/call%E3%80%81apply%E3%80%81bind%E5%8C%BA%E5%88%AB%E4%B8%8E%E7%94%A8%E6%B3%95/</loc>
+    
+    <lastmod>2020-06-30T01:59:22.716Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/html5%E7%A6%BB%E7%BA%BFweb%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F/</loc>
+    
+    <lastmod>2020-06-30T01:59:15.349Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/Web%20Storage/</loc>
+    
+    <lastmod>2020-06-30T01:59:02.716Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/html5%20history%20api/</loc>
+    
+    <lastmod>2020-06-30T01:58:56.077Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80displaybox%E4%B8%8Eflex%E5%8C%BA%E5%88%AB/</loc>
+    
+    <lastmod>2020-06-30T01:58:42.110Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/flex%E5%B8%83%E5%B1%80/</loc>
+    
+    <lastmod>2020-06-30T01:54:24.763Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/30/JavaScript%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/</loc>
+    
+    <lastmod>2020-06-30T01:54:18.447Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mrdouhua.github.io/2020/06/29/HTTP%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AF%86%E5%88%AB%E4%B8%8ECookie%E6%9C%BA%E5%88%B6/</loc>
     
     <lastmod>2020-06-29T13:15:34.640Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/</loc>
+    <loc>https://mrdouhua.github.io/2020/06/29/vue-hooks%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%90%AB%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%89/</loc>
     
     <lastmod>2020-06-29T13:14:57.591Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/</loc>
+    <loc>https://mrdouhua.github.io/2020/06/29/%E5%B8%B8%E7%94%A8markdown%E8%AF%AD%E6%B3%95/</loc>
     
     <lastmod>2020-06-29T13:14:13.057Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://mrdouhua.github.io/2020/06/29/TCP%E4%B8%8EIP%E5%AD%A6%E4%B9%A0/</loc>
     
     <lastmod>2020-06-29T13:13:22.818Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/</loc>
+    <loc>https://mrdouhua.github.io/2020/06/29/http%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%8C%E4%BD%A0%E7%9C%9F%E7%9A%84%E9%83%BD%E4%BC%9A%E4%BA%86%E5%90%97/</loc>
     
     <lastmod>2020-06-29T12:51:46.821Z</lastmod>
     

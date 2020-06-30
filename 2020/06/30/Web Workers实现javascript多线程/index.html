@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Web Workers实现javascript多线程 | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="大家可能都知道javascript是单线程。但在HTML5中新增与线程相关的一个API，Web Workers可以实现Web平台上多线程处理的功能。Web Worker为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面。 我们需要把希望单独执行的javascript代码放到一个单独的js文件中，然后在页面中调用Worker构造函数来创建一个线程，参数是该文件路径">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Workers实现javascript多线程 | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2020/06/30/Web%20Workers%E5%AE%9E%E7%8E%B0javascript%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="大家可能都知道javascript是单线程。但在HTML5中新增与线程相关的一个API，Web Workers可以实现Web平台上多线程处理的功能。Web Worker为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面。 我们需要把希望单独执行的javascript代码放到一个单独的js文件中，然后在页面中调用Worker构造函数来创建一个线程，参数是该文件路径">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-30T01:56:18.641Z">
+<meta property="article:modified_time" content="2020-06-30T02:00:26.084Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Web Workers实现javascript多线程</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-30" class="post-meta__date date">2020-06-30</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>大家可能都知道javascript是单线程。但在HTML5中新增与线程相关的一个API，Web Workers可以实现Web平台上多线程处理的功能。Web Worker为Web内容在后台线程中运行脚本提供了一种简单的方法。线程可以执行任务而不干扰用户界面。</p>
+<p>我们需要把希望单独执行的javascript代码放到一个单独的js文件中，然后在页面中调用Worker构造函数来创建一个线程，参数是该文件路径，参数存放如果是相对地址，那么要以包含调用Worker构造函数语句所在脚本为参照，如果是绝对路径，需要保证同源（协议+主机+端口）。这个文件不需要我们在页面使用script标签显示引用</p>
+<p>创建一个新的 worker 十分简单。你所要做的就是调用 Worker() 构造函数，指定一个要在 worker 线程内运行的脚本的 URI</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var myWorker &#x3D; new Worker(&quot;my_task.js&quot;);</span><br><span class="line"></span><br><span class="line">myWorker.onmessage &#x3D; function (oEvent) &#123;</span><br><span class="line">  console.log(&quot;Called back by the worker!\n&quot;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>或者，你也可以使用 addEventListener()：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var myWorker &#x3D; new Worker(&quot;my_task.js&quot;);</span><br><span class="line"></span><br><span class="line">myWorker.addEventListener(&quot;message&quot;, function (oEvent) &#123;</span><br><span class="line">  console.log(&quot;Called back by the worker!\n&quot;);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">myWorker.postMessage(&quot;&quot;); &#x2F;&#x2F; start the worker.</span><br></pre></td></tr></table></figure>
+<p>worker对象只有两个<strong>属性</strong></p>
+<ul>
+<li>onerror:当worker运行出现错误，并且没有在worker中ing捕获，会在此捕获</li>
+<li>onmessage:当worker向主线程发送消息是调用</li>
+</ul>
+<p>在其prototype内有两个重要<strong>方法</strong></p>
+<ul>
+<li><strong>postMessage</strong>:很熟悉的赶脚，之前我们介绍过window对象的postMessage()方法，woker的postMessage方法和window的比较类似，但参数略有不同，只需要传递消息内容就可以，而且支持所有JavaScript原生数据类型，当然不放心的话同样也可以序列化为字符串传递</li>
+<li><strong>terminate</strong>:终止worker执行，有些worker执行比较慢，主线程可以主动终止其执行</li>
+</ul>
+<p><strong>worker.onmessage</strong><br>在这个句柄内接收外部调用者传递的参数，参数可以通过e.data获取。即获取子线程中postMessage时方法传来的数据。</p>
+<p>在worker中不能使用window对象和docuemnt对象。<br>但可以使用这些：</p>
+<ul>
+<li>JavaScript的全局对象：JSON、Date()、Array</li>
+<li>self自身引用</li>
+<li>location对象，但是其属性都是只读的，改了也影响不到调用者</li>
+<li>navigator对象</li>
+<li>setTimeout()、setInterval()及其对应清除方法</li>
+<li>addEventListener()、removeEventListener()</li>
+</ul>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>

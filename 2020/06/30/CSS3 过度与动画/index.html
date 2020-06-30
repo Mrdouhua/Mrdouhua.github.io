@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      CSS3 过度与动画 | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="CSS3的过度模块挺好用的，可以让一个属性在两个状态之间移动的动画。 TransitionTransition是一种直观上的效果，让DOM元素的某个属性在固定时间内从一旧值到一新值。 浏览器支持Internet Explorer 10、Firefox、Chrome 以及 Opera 支持 transition 属性。 用法1234567891011121314div&amp;#123;width:100p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3 过度与动画 | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2020/06/30/CSS3%20%E8%BF%87%E5%BA%A6%E4%B8%8E%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="CSS3的过度模块挺好用的，可以让一个属性在两个状态之间移动的动画。 TransitionTransition是一种直观上的效果，让DOM元素的某个属性在固定时间内从一旧值到一新值。 浏览器支持Internet Explorer 10、Firefox、Chrome 以及 Opera 支持 transition 属性。 用法1234567891011121314div&amp;#123;width:100p">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2015490-009b1ea32ce21f77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2020-06-30T01:56:19.888Z">
+<meta property="article:modified_time" content="2020-06-30T02:00:47.047Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2015490-009b1ea32ce21f77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">CSS3 过度与动画</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2020-06-30" class="post-meta__date date">2020-06-30</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>CSS3的过度模块挺好用的，可以让一个属性在两个状态之间移动的动画。</p>
+<h2 id="Transition"><a href="#Transition" class="headerlink" title="Transition"></a>Transition</h2><p>Transition是一种直观上的效果，让DOM元素的某个属性在固定时间内从一旧值到一新值。</p>
+<h3 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h3><p>Internet Explorer 10、Firefox、Chrome 以及 Opera 支持 transition 属性。</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line">width:100px;</span><br><span class="line">height:100px;</span><br><span class="line">background:red;</span><br><span class="line">transition:width 2s;</span><br><span class="line">-moz-transition:width 2s; &#x2F;* Firefox 4 *&#x2F;</span><br><span class="line">-webkit-transition:width 2s; &#x2F;* Safari and Chrome *&#x2F;</span><br><span class="line">-o-transition:width 2s; &#x2F;* Opera *&#x2F;</span><br><span class="line">&#125;</span><br><span class="line">div:hover</span><br><span class="line">&#123;</span><br><span class="line">width:300px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/2015490-009b1ea32ce21f77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"><br><strong>transition-timing-function</strong><br>既然是动画，那么就有动画的运行速率，不同的速度会产生不同的结果，以下是可取值。<br>ease：（逐渐变慢）默认值，ease函数等同于贝塞尔曲线(0.25, 0.1, 0.25, 1.0).<br>linear：（匀速），linear 函数等同于贝塞尔曲线(0.0, 0.0, 1.0, 1.0).<br>ease-in：(加速)，ease-in 函数等同于贝塞尔曲线(0.42, 0, 1.0, 1.0).<br>ease-out：（减速），ease-out 函数等同于贝塞尔曲线(0, 0, 0.58, 1.0).<br>ease-in-out：（加速然后减速），ease-in-out 函数等同于贝塞尔曲线(0.42, 0, 0.58, 1.0)</p>
+<h3 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h3><p>简写的 transition 属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transition: transition-property transition-duration transition-timing-function transition-delay</span><br></pre></td></tr></table></figure>
+
+<h2 id="关键帧"><a href="#关键帧" class="headerlink" title="关键帧"></a>关键帧</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@keyframes &#39;name&#39; &#123;</span><br><span class="line">    keyframe &#123;</span><br><span class="line">    property: value;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>匀速向下移动:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@keyframes mymove</span><br><span class="line">&#123;</span><br><span class="line">from &#123;top:0px;&#125;</span><br><span class="line">to &#123;top:200px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-moz-keyframes mymove &#x2F;* Firefox *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">from &#123;top:0px;&#125;</span><br><span class="line">to &#123;top:200px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-webkit-keyframes mymove &#x2F;* Safari 和 Chrome *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">from &#123;top:0px;&#125;</span><br><span class="line">to &#123;top:200px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-o-keyframes mymove &#x2F;* Opera *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">from &#123;top:0px;&#125;</span><br><span class="line">to &#123;top:200px;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以百分比来规定改变发生的时间，或者通过关键词 “from” 和 “to”，等价于 0% 和 100%。<br>在一个动画中添加多个 keyframe 选择器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">@keyframes mymove</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;top:0px;&#125;</span><br><span class="line">25%  &#123;top:200px;&#125;</span><br><span class="line">50%  &#123;top:100px;&#125;</span><br><span class="line">75%  &#123;top:200px;&#125;</span><br><span class="line">100% &#123;top:0px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-moz-keyframes mymove &#x2F;* Firefox *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;top:0px;&#125;</span><br><span class="line">25%  &#123;top:200px;&#125;</span><br><span class="line">50%  &#123;top:100px;&#125;</span><br><span class="line">75%  &#123;top:200px;&#125;</span><br><span class="line">100% &#123;top:0px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-webkit-keyframes mymove &#x2F;* Safari 和 Chrome *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;top:0px;&#125;</span><br><span class="line">25%  &#123;top:200px;&#125;</span><br><span class="line">50%  &#123;top:100px;&#125;</span><br><span class="line">75%  &#123;top:200px;&#125;</span><br><span class="line">100% &#123;top:0px;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@-o-keyframes mymove &#x2F;* Opera *&#x2F;</span><br><span class="line">&#123;</span><br><span class="line">0%   &#123;top:0px;&#125;</span><br><span class="line">25%  &#123;top:200px;&#125;</span><br><span class="line">50%  &#123;top:100px;&#125;</span><br><span class="line">75%  &#123;top:200px;&#125;</span><br><span class="line">100% &#123;top:0px;&#125;</span><br><span class="line">&#125;</span><br><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line">width:100px;</span><br><span class="line">height:100px;</span><br><span class="line">background:red;</span><br><span class="line">position:relative;</span><br><span class="line">animation:mymove 5s infinite;</span><br><span class="line">-moz-animation:mymove 5s infinite; &#x2F;* Firefox *&#x2F;</span><br><span class="line">-webkit-animation:mymove 5s infinite; &#x2F;* Safari and Chrome *&#x2F;</span><br><span class="line">-o-animation:mymove 5s infinite; &#x2F;* Opera *&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然还可以添加这些<strong>动画属性</strong><br><strong>名称：</strong>animation-name</p>
+<p><strong>持续时间：</strong>animation-duration</p>
+<p><strong>计时函数：</strong>animation-timing-function<br>animation-timing-function:ease | linear | ease-in | ease-out | ease-in-out</p>
+<p><strong>延迟：</strong>animation-delay</p>
+<p><strong>迭代次数：</strong>animation-iteration-count<br>animation-iteration-count是用来指定元素播放动画的循环次数，其可以取值<number>为数字，其默认值为“1”；infinite为无限次数循环。</p>
+<p><strong>播放状态：</strong>animation-play-state<br>其主要有两个值，running和paused</p>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
