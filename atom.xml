@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mrdouhua.github.io/"/>
-  <updated>2020-06-30T12:28:27.156Z</updated>
+  <updated>2020-10-13T07:34:13.415Z</updated>
   <id>https://mrdouhua.github.io/</id>
   
   <author>
@@ -15,6 +15,96 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>由vivo自带浏览器的广告拦截引发的bug</title>
+    <link href="https://mrdouhua.github.io/2020/10/13/%E7%94%B1vivo%E8%87%AA%E5%B8%A6%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%BC%95%E5%8F%91%E7%9A%84bug/"/>
+    <id>https://mrdouhua.github.io/2020/10/13/%E7%94%B1vivo%E8%87%AA%E5%B8%A6%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%BC%95%E5%8F%91%E7%9A%84bug/</id>
+    <published>2020-10-13T07:33:04.000Z</published>
+    <updated>2020-10-13T07:34:13.415Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>在某个项目的信息确认的页面在一部vivo手机的自带浏览器里，detail.js文件加载失败，在其他手机上都是正常的，经过排查，不论是重试加载js，还是更改js顺序，都无法正常加载该js文件。</p><p>最后将打包的文件名修改成confirm.js后，就能够正常加载了，这时候怀疑是浏览器的广告拦截导致的问题。接着将广告拦截关闭，再把文件名改回detail.js后，就能够正常加载该js文件了，现在已经确定是广告拦截将js的加载给阻止了。</p><h2 id="测试vivo的广告拦截策略"><a href="#测试vivo的广告拦截策略" class="headerlink" title="测试vivo的广告拦截策略"></a>测试vivo的广告拦截策略</h2><p>被拦截的js文件为detail.js，然后将这几个文件名排列组合一下，看一下有哪几种组合的js会被拦截。</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> script = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &amp;lt; <span class="number">9</span>; i++) &#123;</span><br><span class="line">  script[i] = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>)</span><br><span class="line">  script[i].onerror = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">document</span>.body.append(script[i].src + <span class="string">'::加载错误了'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">script[<span class="number">0</span>].src = <span class="string">'/static/lymonTest/dealVerify/js/detail.js'</span></span><br><span class="line">script[<span class="number">1</span>].src = <span class="string">'/static/lymonTest/verify/js/detail.js'</span></span><br><span class="line">script[<span class="number">2</span>].src = <span class="string">'/static/lymonTest/verify/js/detaillist.js'</span></span><br><span class="line">script[<span class="number">3</span>].src = <span class="string">'/static/lymonTest/detail/js/verify.js'</span></span><br><span class="line">script[<span class="number">4</span>].src = <span class="string">'/static/lymonTest/detail/js/verifylist.js'</span></span><br><span class="line">script[<span class="number">5</span>].src = <span class="string">'/static/lymonTest/js/detail.js'</span></span><br><span class="line">script[<span class="number">6</span>].src = <span class="string">'/static/lymonTest/js/verify.js'</span></span><br><span class="line">script[<span class="number">7</span>].src = <span class="string">'/static/lymonTest/js/verifylist.js'</span></span><br><span class="line">script[<span class="number">8</span>].src = <span class="string">'/static/lymonTest/js/detaillist.js'</span></span><br><span class="line"></span><br><span class="line">setTimeout(() =&amp;gt; &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &amp;lt; <span class="number">9</span>; i++) &#123;</span><br><span class="line">    <span class="built_in">document</span>.body.append(script[i])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br></pre></td></tr></table></figure><p>根据上述代码，每个js文件会输出自己的文件名，如果加载失败，则会输出该文件名加载错误。然后我们测试一下在vivo自带浏览器里，有哪几个文件会被阻止加载，结果如下：<br><img src="/tfl/captures/2020-09/tapd_20012601_base64_1600058064_24.png" alt="图片描述"></p><p>由结果可以发现<code>js/detail.js</code>这个路径的js文件会被拦截，其余的则不会，由此可以判断只要是这个路径的js文件，都会发生加载失败的问题。</p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>项目中打包的文件名，尽量不要用detail这个文件名，防止被拦截加载，vivo的广告拦截策略我们没法查看以及更改，所以只能避免这种情况发生。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h2&gt;&lt;p&gt;在某个项目的信息确认的页面在一部vivo手机的自带浏览器里，detail.js文件加载失败，在其他手机上都是正常的，经过排查，不论是重试加载
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>由Chrome翻译引出的Vue更新视图失败的问题</title>
+    <link href="https://mrdouhua.github.io/2020/10/13/%E7%94%B1Chrome%E7%BF%BB%E8%AF%91%E5%BC%95%E5%87%BA%E7%9A%84Vue%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://mrdouhua.github.io/2020/10/13/%E7%94%B1Chrome%E7%BF%BB%E8%AF%91%E5%BC%95%E5%87%BA%E7%9A%84Vue%E6%9B%B4%E6%96%B0%E8%A7%86%E5%9B%BE%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <published>2020-10-13T07:31:26.000Z</published>
+    <updated>2020-10-13T07:42:14.471Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>在某个项目中，部分电脑上会出现保费以及价值等文本元素在视图上没有发生改变，但是数据是已经更新了的。</p><p>在排查过程中，发现其他的元素的显隐规则是能够正常运行的，并且在更改了保费元素的类型为input元素后，也是能够正常更新视图的。</p><p>在查看页面元素时，发现chrome开启了翻译功能，导致文本元素的节点发生了变化，如下面所示：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 原元素 --&gt;</span><br><span class="line">&lt;span&gt;12345元&lt;&#x2F;span&gt;</span><br><span class="line">&lt;!-- 翻译过后的元素 --&gt;</span><br><span class="line">&lt;span&gt;</span><br><span class="line">  &lt;font style&#x3D;&quot;vertical-align: inherit&quot;&gt;</span><br><span class="line">    &lt;font style&#x3D;&quot;vertical-align: inherit&quot;&gt;</span><br><span class="line">      12345元</span><br><span class="line">    &lt;&#x2F;font&gt;</span><br><span class="line">  &lt;&#x2F;font&gt;</span><br><span class="line">&lt;&#x2F;span&gt;</span><br></pre></td></tr></table></figure><p>这个项目在html文件上没有指定语言为中文，翻译后才会有节点的变化。<br>根据这个元素的变化，初步确定是Vue更新视图时因为元素发生变化，导致无法正常更新视图的问题。</p><h2 id="Vue-patch算法更新视图失败的原因"><a href="#Vue-patch算法更新视图失败的原因" class="headerlink" title="Vue patch算法更新视图失败的原因"></a>Vue patch算法更新视图失败的原因</h2><p>Vue的patch算法，是先对vdom进行比对，判断是相同、新增还是删除节点而做出不同的操作。因为是对vdom进行比对，所以chrome翻译导致的新增节点，无法重新映射回vdom节点。</p><p>所以在比对时，vue会认为本次更新时，这个文本元素只有值的变化，所以最终只更改了span标签下文本节点的textContent，但这时span标签下并没有这个文本节点，所以即使更改了textContent，也是无用的，因为它并不能映射到真实元素上面。</p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><ol><li>html需要指定正确的语言，这样在同个语言环境下，即使强行翻译页面，chrome也不会在文本元素下增加新的元素。（但是在不同语言环境下，如果将页面翻译成其他的语言，也依旧会存在视图更新失败的问题）</li><li>将模板语法两个大花括号改为v-text，虽然大部分资料上写的是两个大花括和v-text没有什么区别，但是vue的模板编译和patch算法对这两种语法的处理形式是不同的。<ul><li>模板语法在编译过后，就是一个正常的节点关系，在patch的时候也依赖于vdom和真实dom的对应层级关系。</li><li>v-text编译后本质上是在该节点上将textContent属性和值绑定在一起了，并且在patch时，v-text会将该节点下的子节点都清空，然后再更新textContent属性。这也是为什么Chrome翻译页面后，在文本节点下新增子节点，Vue也能够正常更新视图的原因。</li></ul></li></ol><h3 id="模板语法与v-text编译后的区别"><a href="#模板语法与v-text编译后的区别" class="headerlink" title="模板语法与v-text编译后的区别"></a>模板语法与v-text编译后的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;app&quot;&gt;</span><br><span class="line">  &lt;span&gt;&#123;&#123; msg &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">  &lt;span v-text&#x3D;&quot;msg&quot;&gt;&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">with</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> _c(<span class="string">'div'</span>, &#123;</span><br><span class="line">      attrs: &#123;</span><br><span class="line">        <span class="string">"id"</span>: <span class="string">"app"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, [_c(<span class="string">'span'</span>, [_v(_s(msg))]), _c(<span class="string">'span'</span>, &#123;</span><br><span class="line">      domProps: &#123;</span><br><span class="line">        <span class="string">"textContent"</span>: _s(msg)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h2&gt;&lt;p&gt;在某个项目中，部分电脑上会出现保费以及价值等文本元素在视图上没有发生改变，但是数据是已经更新了的。&lt;/p&gt;
+&lt;p&gt;在排查过程中，发现其他的元
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>垃圾回收机制</title>
+    <link href="https://mrdouhua.github.io/2020/10/13/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/"/>
+    <id>https://mrdouhua.github.io/2020/10/13/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</id>
+    <published>2020-10-13T07:28:37.000Z</published>
+    <updated>2020-10-13T07:28:57.052Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>JS的回收机制分两种：1.标记清除 2.引用计数。各大浏览器常用的是前者。</strong>  </p><h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>定义和用法：当变量进入环境时，将变量标记”进入环境”，当变量离开环境时，标记为：”离开环境”。某一个时刻，垃圾回收器会过滤掉环境中的变量，以及被环境变量引用的变量，剩下的就是被视为准备回收的变量。  </p><p>工作流程：</p><ol><li><p>垃圾回收器，在运行的时候会给存储在内存中的所有变量都加上标记。</p></li><li><p>去掉环境中的变量以及被环境中的变量引用的变量的标记。</p></li><li><p>再被加上标记的会被视为准备删除的变量。</p></li><li><p>垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。</p></li></ol><h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>定义和用法：引用计数是跟踪记录每个值被引用的次数。</p><p>　　基本原理：就是变量的引用次数，被引用一次则加1，当这个引用计数为0时，被视为准备回收的对象。</p><p>工作流程：</p><ol><li><p>声明了一个变量并将一个引用类型的值赋值给这个变量，这个引用类型值的引用次数就是1。</p></li><li><p>同一个值又被赋值给另一个变量，这个引用类型值的引用次数加1.</p></li><li><p>当包含这个引用类型值的变量又被赋值成另一个值了，那么这个引用类型值的引用次数减1.</p></li><li><p>当引用次数变成0时，说明没办法访问这个值了。</p></li><li><p>当垃圾收集器下一次运行时，它就会释放引用次数是0的值所占的内存。</p></li></ol><h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><p>循环引用的时候就会释放不掉内存。循环引用就是对象A中包含另一个指向对象B的指针，B中也包含一个指向A的引用。</p><p>开发过程中遇到的内存泄露情况<br>1、定义和用法：</p><p>内存泄露是指一块被分配的内存既不能使用，又不能回收，直到浏览器进程结束。C#和Java等语言采用了自动垃圾回收方法管理内存，几乎不会发生内存泄露。我们知道，浏览器中也是采用自动垃圾回收方法管理内存，但由于浏览器垃圾回收方法有bug，会产生内存泄露。</p><p>由于每次的垃圾回收开销都相对较大，并且由于机制的一些不完善的地方，可能会导致内存泄露。我们可以利用一些方法减少垃圾回收，并且尽量避免循环引用的问题。</p><p>例如，在对象结束使用后 ，令obj=null。这样利于解除循环引用，使得无用变量及时被回收</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;JS的回收机制分两种：1.标记清除 2.引用计数。各大浏览器常用的是前者。&lt;/strong&gt;  &lt;/p&gt;
+&lt;h3 id=&quot;标记清除&quot;&gt;&lt;a href=&quot;#标记清除&quot; class=&quot;headerlink&quot; title=&quot;标记清除&quot;&gt;&lt;/a&gt;标记清除&lt;/h3&gt;&lt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用数据结构</title>
+    <link href="https://mrdouhua.github.io/2020/10/13/%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <id>https://mrdouhua.github.io/2020/10/13/%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</id>
+    <published>2020-10-13T07:23:34.000Z</published>
+    <updated>2020-10-13T07:24:31.554Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="js基本类型与引用类型的区别"><a href="#js基本类型与引用类型的区别" class="headerlink" title="js基本类型与引用类型的区别"></a>js基本类型与引用类型的区别</h2><p>基本类型有：undefined，boolean，number，string，null<br>引用类型有：Object，Array，Date等  </p><p>基本类型的变量是存放在栈区的（栈区指内存里的栈内存），栈区包括了 变量的标识符和变量的值。<br><img src="https://images2015.cnblogs.com/blog/1103385/201702/1103385-20170212104752057-1066946645.png" alt="image"></p><p>引用类型的值是同时保存在栈内存和堆内存中的对象，栈区内存保存变量标识符和指向堆内存中该对象的指针<br><img src="https://images2015.cnblogs.com/blog/1103385/201702/1103385-20170212104829307-1264699054.png" alt="image"></p><h2 id="常见的数据结构"><a href="#常见的数据结构" class="headerlink" title="常见的数据结构"></a>常见的数据结构</h2><p>常用的数据结构有：数组，栈，链表，队列，树，图，堆，散列表等<br><img src="https://img-blog.csdn.net/20180903194901687?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lleWF6aGlzaGFuZw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p><h3 id="1、数组"><a href="#1、数组" class="headerlink" title="1、数组"></a>1、数组</h3><p>数组是可以再内存中连续存储多个元素的结构，在内存中的分配也是连续的，数组中的元素通过数组下标进行访问  </p><h3 id="2、栈"><a href="#2、栈" class="headerlink" title="2、栈"></a>2、栈</h3><p>栈是一种特殊的线性表，仅能在线性表的一端操作，栈顶允许操作，栈底不允许操作。 栈的特点是：先进后出，或者说是后进先出，从栈顶放入元素的操作叫入栈，取出元素叫出栈。<br><img src="https://img-blog.csdn.net/20180903195046375?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lleWF6aGlzaGFuZw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"></p><h3 id="3、队列"><a href="#3、队列" class="headerlink" title="3、队列"></a>3、队列</h3><p>队列与栈一样，也是一种线性表，不同的是，队列可以在一端添加元素，在另一端取出元素，也就是：先进先出。从一端放入元素的操作称为入队，取出元素为出队。<br>使用场景：因为队列先进先出的特点，在多线程阻塞队列管理中非常适用。</p><h3 id="4、链表"><a href="#4、链表" class="headerlink" title="4、链表"></a>4、链表</h3><p>链表是物理存储单元上非连续的、非顺序的存储结构，数据元素的逻辑顺序是通过链表的指针地址实现，每个元素包含两个结点，一个是存储元素的数据域 (内存空间)，另一个是指向下一个结点地址的指针域。根据指针的指向，链表能形成不同的结构，例如单链表，双向链表，循环链表等。<br>所谓的双向链表，只是加了一个向前的线索的链表而已。  </p><h3 id="5、树"><a href="#5、树" class="headerlink" title="5、树"></a>5、树</h3><p>由n（n&gt;=1）个有限节点组成一个具有层次关系的集合，特点：</p><ul><li>每个节点有零个或多个子节点；</li><li>没有父节点的节点称为根节点；</li><li>每一个非根节点有且只有一个父节点；</li><li>除了根节点外，每个子节点可以分为多个不相交的子树；</li></ul><h4 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h4><p><img src="https://img-blog.csdn.net/20180903195345210?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3lleWF6aGlzaGFuZw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="image"><br>二叉树是树的特殊一种，具有如下特点：</p><p>1、每个结点最多有两颗子树，结点的度最大为2。<br>2、左子树和右子树是有顺序的，次序不能颠倒。<br>3、即使某结点只有一个子树，也要区分左右子树。  </p><h3 id="6、散列表-哈希表"><a href="#6、散列表-哈希表" class="headerlink" title="6、散列表/哈希表"></a>6、散列表/哈希表</h3><p>关键码和值 (key和value) 直接进行访问的数据结构</p><h3 id="7、堆"><a href="#7、堆" class="headerlink" title="7、堆"></a>7、堆</h3><p>堆是一种比较特殊的数据结构，可以被看做一棵树的数组对象，具有以下的性质：</p><ul><li>堆中某个节点的值总是不大于或不小于其父节点的值；</li><li>堆总是一棵完全二叉树。</li></ul><h3 id="8、图"><a href="#8、图" class="headerlink" title="8、图"></a>8、图</h3><p>图是由结点的有穷集合V和边的集合E组成。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;js基本类型与引用类型的区别&quot;&gt;&lt;a href=&quot;#js基本类型与引用类型的区别&quot; class=&quot;headerlink&quot; title=&quot;js基本类型与引用类型的区别&quot;&gt;&lt;/a&gt;js基本类型与引用类型的区别&lt;/h2&gt;&lt;p&gt;基本类型有：undefined，boolea
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>原生js封装ajax</title>
@@ -389,104 +479,6 @@
         &lt;p&gt;HTML5提供了本地缓存使用的API，使得我们可以开发离线应用。传统的Web应用程序一般是利用网页缓存，网页缓存有缺点也有优点。下面是本地缓存和网页缓存的对比：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;如果用户没有连接网络，就不能使用Web应用程序，相比离线浏览 - 用户可在应用离线时使
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Web Storage</title>
-    <link href="https://mrdouhua.github.io/2020/06/30/Web%20Storage/"/>
-    <id>https://mrdouhua.github.io/2020/06/30/Web%20Storage/</id>
-    <published>2020-06-30T01:56:14.830Z</published>
-    <updated>2020-06-30T01:59:02.716Z</updated>
-    
-    <content type="html"><![CDATA[<p>Web Storage是HTML5引入的一个非常重要的功能，可以在客户端本地存储数据，类似HTML4的cookie，但可实现功能要比cookie强大的多，Web Storage官方建议为每个网站5MB。<br><strong>cookie缺点</strong></p><ul><li>每个域名下cookie的大小限制在4KB。</li><li>cookie会包含在每个http请求中，这样会导致发送重复的数据。</li><li>cookie在网络传输过程中没有加密，存在安全隐患。</li></ul><p>Web Storage又分为两种：</p><ul><li>sessionStorage</li><li>localStorage</li></ul><p><strong>SessionStorage：</strong>与session类似，Session Storage保存的数据生存期限与Session期限相同，用户Session结束时，Session Storage保存的数据也就消失了。<br><strong>LocalStorage：</strong> Local Storage保存的数据一直在本地，除非用户或程序显式地清楚，否则这些数据会一致存在。</p><p><strong>常用方法：</strong><br>二者方法一样，但key和value都必须为字符串，换言之，web Storage的API只能操作字符串。</p><ul><li>保存数据：localStorage.setItem(key,value);</li><li>读取数据：localStorage.getItem(key);</li><li>删除单个数据：localStorage.removeItem(key);</li><li>删除所有数据：localStorage.clear();</li><li>得到某个索引的key：localStorage.key(index);</li></ul><p>下面是写的三个小例子<br>1，简单读取数据</p><blockquote></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;Web Storager&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Web Storager 事例&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;msg&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;input&quot; name&#x3D;&quot;&quot;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;保存数据&quot; onclick&#x3D;&quot;saveStorage(&#39;input&#39;)&quot; name&#x3D;&quot;&quot;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;读取数据&quot; onclick&#x3D;&quot;loadStorage(&#39;msg&#39;)&quot; name&#x3D;&quot;&quot;&gt;</span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;js&#x2F;script.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; script.js</span><br><span class="line">&#x2F;&#x2F; localStorage事例</span><br><span class="line">function saveStorage(id)&#123;</span><br><span class="line">var target &#x3D; document.getElementById(id).value;</span><br><span class="line">var str &#x3D; target;</span><br><span class="line">localStorage.setItem(&quot;message&quot;,str);</span><br><span class="line">&#x2F;&#x2F; localStorage.message &#x3D; str;</span><br><span class="line">&#125;</span><br><span class="line">function loadStorage(id)&#123;</span><br><span class="line">var target &#x3D; document.getElementById(id);</span><br><span class="line">var msg &#x3D; localStorage.getItem(&quot;message&quot;);</span><br><span class="line">&#x2F;&#x2F; var msg &#x3D; localStorage.message;</span><br><span class="line">target.innerHTML &#x3D; msg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>效果图<br><img src="http://upload-images.jianshu.io/upload_images/2015490-ded421dcb88f4d0d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p><p>　<br>2,简单留言板</p><blockquote></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;简单的留言板&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;简单的web留言板&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;textarea id&#x3D;&quot;memo&quot; cols&#x3D;&quot;60&quot; rows&#x3D;&quot;10&quot;&gt;&lt;&#x2F;textarea&gt;&lt;br&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;追加&quot; onclick&#x3D;&quot;saveStorage(&#39;memo&#39;);&quot;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;初始化&quot; onclick&#x3D;&quot;clearStorage(&#39;msg&#39;);&quot;&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;msg&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;js&#x2F;script.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function saveStorage(id)&#123;</span><br><span class="line">var data &#x3D; document.getElementById(id).value;</span><br><span class="line">var time &#x3D; new Date().getTime();</span><br><span class="line">localStorage.setItem(time,data);</span><br><span class="line">alert(&quot;数据已经保存!&quot;);</span><br><span class="line">loadStorage(&#39;msg&#39;);</span><br><span class="line">&#125;</span><br><span class="line">function loadStorage(id)&#123;</span><br><span class="line">var result &#x3D; &#39;&lt;table border &#x3D; &quot;1&quot;&gt;&#39;;</span><br><span class="line">for(var i &#x3D; 0;i &lt; localStorage.length;i++)&#123;</span><br><span class="line">var key &#x3D; localStorage.key(i);</span><br><span class="line">var value &#x3D; localStorage.getItem(key);</span><br><span class="line">var date &#x3D; new Date();</span><br><span class="line">date.setTime(key);</span><br><span class="line">var datestr &#x3D; date.toGMTString();</span><br><span class="line">result +&#x3D; &#39;&lt;tr&gt;&lt;td&gt;&#39; + value + &#39;&lt;&#x2F;td&gt;&lt;td&gt;&#39; + datestr + &#39;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;&#39;;</span><br><span class="line">&#125;</span><br><span class="line">result +&#x3D; &#39;&lt;&#x2F;table&gt;&#39;;</span><br><span class="line">var target &#x3D; document.getElementById(id);</span><br><span class="line">target.innerHTML &#x3D; result;</span><br><span class="line">&#125;</span><br><span class="line">function clearStorage()&#123;</span><br><span class="line">localStorage.clear();</span><br><span class="line">alert(&quot;全部数据被清除!&quot;);</span><br><span class="line">loadStorage(&#39;msg&#39;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>效果图<br><img src="http://upload-images.jianshu.io/upload_images/2015490-cf2e0185f2f2edc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p><p>　<br>3,简易数据库</p><blockquote></blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;简易数据库示例&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;使用web Storage来做简易的数据库示例&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;table&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;姓名：&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;name&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;EMAIL：&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;email&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;电话号码：&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;tel&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;备注：&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;memo&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;保存&quot; onclick&#x3D;&quot;saveStorage();&quot;&gt;</span><br><span class="line">&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;p&gt;</span><br><span class="line">检索：&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;find&quot;&gt;</span><br><span class="line">&lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;检索&quot; onclick&#x3D;&quot;findStorage(&#39;msg&#39;)&quot; name&#x3D;&quot;&quot;&gt;</span><br><span class="line">&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;msg&quot;&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;js&#x2F;script.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function saveStorage()&#123;</span><br><span class="line">var data &#x3D; new Object;</span><br><span class="line">data.name &#x3D; document.getElementById(&#39;name&#39;).value;</span><br><span class="line">data.email &#x3D; document.getElementById(&#39;email&#39;).value;</span><br><span class="line">data.tel &#x3D; document.getElementById(&#39;tel&#39;).value;</span><br><span class="line">data.memo &#x3D; document.getElementById(&#39;memo&#39;).value;</span><br><span class="line">var str &#x3D; JSON.stringify(data);</span><br><span class="line">localStorage.setItem(data.name,str);</span><br><span class="line">alert(&quot;数据已经保存!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">function findStorage(id)&#123;</span><br><span class="line">var find &#x3D; document.getElementById(&#39;find&#39;).value;</span><br><span class="line">var str &#x3D; localStorage.getItem(find);</span><br><span class="line">var data &#x3D; JSON.parse(str);</span><br><span class="line">var result &#x3D; &quot;姓名：&quot; + data.name + &#39;&lt;br&gt;&#39;;</span><br><span class="line">result +&#x3D; &quot;EMAIL：&quot; + data.email + &#39;&lt;br&gt;&#39;;</span><br><span class="line">result +&#x3D; &quot;电话号码：&quot; + data.tel + &#39;&lt;br&gt;&#39;;</span><br><span class="line">result +&#x3D; &quot;备注：&quot; + data.memo + &#39;&lt;br&gt;&#39;;</span><br><span class="line">var target &#x3D; document.getElementById(id);</span><br><span class="line">target.innerHTML &#x3D; result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>效果图<br><img src="http://upload-images.jianshu.io/upload_images/2015490-a6bd4b16334486f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Paste_Image.png"></p><p>　</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Web Storage是HTML5引入的一个非常重要的功能，可以在客户端本地存储数据，类似HTML4的cookie，但可实现功能要比cookie强大的多，Web Storage官方建议为每个网站5MB。&lt;br&gt;&lt;strong&gt;cookie缺点&lt;/strong&gt;&lt;/p&gt;
-&lt;u
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>html5 history api</title>
-    <link href="https://mrdouhua.github.io/2020/06/30/html5%20history%20api/"/>
-    <id>https://mrdouhua.github.io/2020/06/30/html5%20history%20api/</id>
-    <published>2020-06-30T01:56:14.231Z</published>
-    <updated>2020-06-30T01:58:56.077Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>定义</strong><br>是一种切换浏览器显示页面url的api</p><p><strong>作用</strong><br>该api可以通过脚本语言来管理浏览器的历史记录，<strong>不刷新</strong>页面的情况下动态、显示改变浏览器url，动态修改页面上所显示资源。</p><h3 id="HTML4中的History-API"><a href="#HTML4中的History-API" class="headerlink" title="HTML4中的History API"></a>HTML4中的History API</h3><p>首先讲一下HTML4中的History API中的属性与方法。<br><strong>属性：</strong>length 历史的项数。javascript 所能管到的历史被限制在用浏览器的“前进”“后退”键可以去到的范围。本属性返回的是“前进”和“后退”两个按键之下包含的地址数的和。<br><strong>方法：</strong></p><ul><li>back() 后退，跟按下“后退”键是等效的。</li><li>forward() 前进，跟按下“前进”键是等效的。</li><li>go()，跳转</li></ul><h3 id="pushState-方法"><a href="#pushState-方法" class="headerlink" title="pushState 方法"></a>pushState 方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.history.pushState(null, null, &quot;?id&#x3D;1&quot;);</span><br></pre></td></tr></table></figure><p>接收三个参数，按顺序分别为：</p><ul><li>一个对象或者字符串，用于描述新记录的一些特性。这个参数会被一并添加到历史记录中，以供以后使用。这个参数是开发者根据自己的需要自由给出的。</li><li>一个字符串，代表新页面的标题。当前基本上所有浏览器都会忽略这个参数。</li><li>一个字符串，代表新页面的相对地址，可以接受hash值。</li></ul><h3 id="popstate-事件"><a href="#popstate-事件" class="headerlink" title="popstate 事件"></a>popstate 事件</h3><p>当用户点击浏览器的「前进」、「后退」按钮时，就会触发popstate事件。你可以监听这一事件，从而作出反应。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&quot;popstate&quot;, function(e) &#123;</span><br><span class="line">    var state &#x3D; e.state;</span><br><span class="line">    &#x2F;&#x2F; do something...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure><h3 id="replaceState-方法"><a href="#replaceState-方法" class="headerlink" title="replaceState 方法"></a>replaceState 方法</h3><p>不添加一个新记录，而是替换当前的记录（比如对网站的 landing page），则可以使用replaceState方法。这个方法和pushState的参数完全一样。</p><h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>history api与ajax经常一起使用，动态改变url，无刷新改变页面内容。<br><strong>ajax不足</strong></p><ul><li>无法使用浏览器的前进、后退来切换前后数据。</li><li>单纯地使用AJAX不利于搜索引擎优化。</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;strong&gt;定义&lt;/strong&gt;&lt;br&gt;是一种切换浏览器显示页面url的api&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;&lt;br&gt;该api可以通过脚本语言来管理浏览器的历史记录，&lt;strong&gt;不刷新&lt;/strong&gt;页面的情况下动态、显示改变浏览器url，
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>弹性布局displaybox与flex区别</title>
-    <link href="https://mrdouhua.github.io/2020/06/30/%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80displaybox%E4%B8%8Eflex%E5%8C%BA%E5%88%AB/"/>
-    <id>https://mrdouhua.github.io/2020/06/30/%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80displaybox%E4%B8%8Eflex%E5%8C%BA%E5%88%AB/</id>
-    <published>2020-06-30T01:56:13.722Z</published>
-    <updated>2020-06-30T01:58:42.110Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>弹性布局是针对Css3的一种新型布局，以一种高效的方式对容器里面的条目布局，对齐，分配空间。而且在位置宽度，高度，或者动态的页面任然可以布局。</li></ul><ul><li>display: box;与display:flex;<ul><li><strong>前者</strong>display:box是2009年的语法版本，使用时需要加上浏览器的前缀，不过现在已经过时了。</li><li><strong>后者</strong>display:flex是2012年最新修正的语法版本，浏览器支持较好，也将成为以后标准的语法。</li><li>中间2011年也提出了一个奇葩的语法版本display:flexbox<br>，非官方的，当时主要是为IE浏览器使用。</li><li>前者是09年之前的规定的写法，后者是12年并且是现在的规范。</li><li>前者是早期浏览器前期支持的写法，后者是现代浏览器支持的写法。</li><li>display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ <em>/ display: -moz-box; /</em> Firefox 17- <em>/<br>display: -webkit-flex; /</em> Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 <em>/<br>display: -moz-flex; /</em> Firefox 18+ <em>/<br>display: -ms-flexbox; /</em> IE 10 <em>/<br>display: flex; /</em> Chrome 29+, Firefox 22+, IE 11+, Opera 12.1/17/18, Android 4.4+ */</li></ul></li><li>参考网址 <a href="http://www.zhangxinxu.com/wordpress/?p=1338" target="_blank" rel="noopener">http://www.zhangxinxu.com/wordpress/?p=1338</a> <a href="https://segmentfault.com/q/1010000003497333" target="_blank" rel="noopener">https://segmentfault.com/q/1010000003497333</a></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;弹性布局是针对Css3的一种新型布局，以一种高效的方式对容器里面的条目布局，对齐，分配空间。而且在位置宽度，高度，或者动态的页面任然可以布局。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ul&gt;
-&lt;li&gt;display: box;与display:flex;&lt;ul&gt;
-&lt;li&gt;&lt;st
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>HTTP 缓存</title>
-    <link href="https://mrdouhua.github.io/2020/06/30/HTTP%20%E7%BC%93%E5%AD%98/"/>
-    <id>https://mrdouhua.github.io/2020/06/30/HTTP%20%E7%BC%93%E5%AD%98/</id>
-    <published>2020-06-30T01:56:13.073Z</published>
-    <updated>2020-06-30T02:00:59.948Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="缓存优点"><a href="#缓存优点" class="headerlink" title="缓存优点"></a>缓存优点</h2><ul><li>减少了冗余的数据传输</li><li>缓解了网络瓶颈的问题</li><li>降低了对原始服务器的请求，降低了服务器的压力</li><li>降低了距离时延</li></ul><p>缓存分为服务端侧（server side，比如 Nginx、Apache）和客户端侧（client side，比如 web browser）。</p><p>服务端缓存又分为<strong>代理服务器缓存</strong> 和 <strong>反向代理服务器缓存</strong>（也叫网关缓存，比如 Nginx反向代理）<br>客户端侧缓存一般指的是浏览器缓存，目的就是加速各种静态资源的访问，<br>增加用户体验、减轻服务器压力和网络带宽的压力。</p><h2 id="浏览器缓存机制详解"><a href="#浏览器缓存机制详解" class="headerlink" title="浏览器缓存机制详解"></a>浏览器缓存机制详解</h2><p>浏览器缓存控制机制有两种：HTML Meta标签 vs. HTTP头信息</p><h3 id="HTML-Meta标签"><a href="#HTML-Meta标签" class="headerlink" title="HTML Meta标签"></a>HTML Meta标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;META HTTP-EQUIV&#x3D;&quot;Pragma&quot; CONTENT&#x3D;&quot;no-cache&quot;&gt;</span><br></pre></td></tr></table></figure><p>但只有部分浏览器可以支持，而且所有缓存代理服务器都不支持，因为代理不解析HTML内容本身。</p><h3 id="HTTP头信息控制缓存"><a href="#HTTP头信息控制缓存" class="headerlink" title="HTTP头信息控制缓存"></a>HTTP头信息控制缓存</h3><ul><li>浏览器第一次请求流程图<br><img src="http://upload-images.jianshu.io/upload_images/2015490-5a77f9b694dadcb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浏览器第一次请求"></li><li>浏览器再次请求时<br><img src="http://upload-images.jianshu.io/upload_images/2015490-304ee2282a9d3d58.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="浏览器再次请求"></li></ul><p>原始服务器的内容可能会发生变化，缓存要经常对其进行检测，看看它们保存的副本是否任是服务器最新版本。<br>缓存对缓存的副本进行在验证时，会向原始服务器发送一个晓得在验证请求。如果内容没有变化，返回 304 Not Modifield状态码。</p><h3 id="如何判断缓存新鲜度"><a href="#如何判断缓存新鲜度" class="headerlink" title="如何判断缓存新鲜度"></a>如何判断缓存新鲜度</h3><p>8 第一种， 浏览器把缓存文件的最后修改时间通过 header ”If-Modified-Since“来告诉Web服务器。·<br>8 第二种， 浏览器把缓存文件的ETag, 通过header “If-None-Match”, 来告诉Web服务器。</p><h3 id="通过最后修改时间-来判断缓存新鲜度"><a href="#通过最后修改时间-来判断缓存新鲜度" class="headerlink" title="通过最后修改时间, 来判断缓存新鲜度"></a>通过最后修改时间, 来判断缓存新鲜度</h3><p>1，浏览器客户端想请求一个文档，  首先检查本地缓存，发现存在这个文档的缓存，  获取缓存中文档的最后修改时间，通过： If-Modified-Since， 发送Request给Web服务器。·<br>2， Web服务器收到Request，将服务器的文档修改时间（Last-Modified）: 跟request header 中的，If-Modified-Since相比较， 如果时间是一样的， 说明缓存还是最新的， Web服务器将发送304 Not Modified给浏览器客户端， 告诉客户端直接使用缓存里的版本</p><p><strong>Expires策略</strong>：Expires是Web服务器响应消息头字段，在响应http请求时告诉浏览器在过期时间前浏览器可以直接从浏览器缓存取数据，而无需再次请求。<br>Expires 的一个<strong>缺点：</strong>返回的到期时间是服务器端的时间，这样存在一个问题，如果客户端的时间与服务器的时间相差很大（比如时钟不同步，或者跨时区），那么误差就很大，所以在HTTP 1.1版开始，使用Cache-Control: max-age=秒替代。</p><p><strong>Cache-control策略</strong>（<em>重点关注</em>）：Cache-Control与Expires的作用一致，都是指明当前资源的有效期，控制浏览器是否直接从浏览器缓存取数据还是重新发请求到服务器取数据。只不过Cache-Control的选择更多，设置更细致，如果同时设置的话，其<strong>优先级</strong>高于Expires。</p><p><strong>缺点：</strong></p><ol><li>某些服务器不能精确得到文件的最后修改时间， 这样就无法通过最后修改时间来判断文件是否更新了。·</li><li>某些文件的修改非常频繁，在秒以下的时间内进行修改. Last-Modified只能精确到秒。</li><li>一些文件的最后修改时间改变了，但是内容并未改变。 我们不希望客户端认为这个文件修改了。</li></ol><h3 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h3><p>ETag是实体标签（Entity Tag）的缩写， 根据实体内容生成的一段hash字符串（类似于MD5或者SHA1之后的结果），可以标识资源的状态。 当资源发送改变时，ETag也随之发生变化。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;缓存优点&quot;&gt;&lt;a href=&quot;#缓存优点&quot; class=&quot;headerlink&quot; title=&quot;缓存优点&quot;&gt;&lt;/a&gt;缓存优点&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;减少了冗余的数据传输&lt;/li&gt;
-&lt;li&gt;缓解了网络瓶颈的问题&lt;/li&gt;
-&lt;li&gt;降低了对原始服务器的请求，降低了
       
     
     </summary>
