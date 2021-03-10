@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      最简单的微前端方案学习（网易云async-routers） | 莫克力学习博客 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="莫克力">
+    
+    
+
+    <meta name="description" content="微前端也火了很久了，业界的技术方案也有很多种。这玩意吧，确实也是好东西，它能解决什么问题呢？ 本次摘要 微前端是什么为什么需要微前端对比几种微前端方案简述网易云方案总结常见问题微前端是什么微前端是一种web 应用技术方案，可以独立编译、发布、开发，可以拥有不同技术栈 传统项目问题对于大型前端项目，比如公司内部管理系统（CRM系统），如果将所有业务放在一个前端项目里，随着业务功能不断增加，就会导致如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最简单的微前端方案学习（网易云async-routers） | 莫克力学习博客">
+<meta property="og:url" content="https://mrdouhua.github.io/2021/03/10/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%BE%AE%E5%89%8D%E7%AB%AF%E6%96%B9%E6%A1%88%E5%AD%A6%E4%B9%A0%EF%BC%88%E7%BD%91%E6%98%93%E4%BA%91async-routers%EF%BC%89/index.html">
+<meta property="og:site_name" content="莫克力学习博客">
+<meta property="og:description" content="微前端也火了很久了，业界的技术方案也有很多种。这玩意吧，确实也是好东西，它能解决什么问题呢？ 本次摘要 微前端是什么为什么需要微前端对比几种微前端方案简述网易云方案总结常见问题微前端是什么微前端是一种web 应用技术方案，可以独立编译、发布、开发，可以拥有不同技术栈 传统项目问题对于大型前端项目，比如公司内部管理系统（CRM系统），如果将所有业务放在一个前端项目里，随着业务功能不断增加，就会导致如">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-10T10:55:20.000Z">
+<meta property="article:modified_time" content="2021-03-10T10:55:57.681Z">
+<meta property="article:author" content="莫克力">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="莫克力学习博客" type="application/atom+xml">
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">莫克力学习博客</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">首页</a></li>
+              
+                
+                <li class="navigation__item"><a href="/archives" title="" class="">归档</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">最简单的微前端方案学习（网易云async-routers）</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2021-03-10" class="post-meta__date date">2021-03-10</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>微前端也火了很久了，业界的技术方案也有很多种。这玩意吧，确实也是好东西，它能解决什么问题呢？</p>
+<p>本次摘要</p>
+<p>微前端是什么<br>为什么需要微前端<br>对比几种微前端方案<br>简述网易云方案<br>总结<br>常见问题<br>微前端是什么<br>微前端是一种web 应用技术方案，可以独立编译、发布、开发，可以拥有不同技术栈</p>
+<p>传统项目问题<br>对于大型前端项目，比如公司内部管理系统（CRM系统），如果将所有业务放在一个前端项目里，随着业务功能不断增加，就会导致如下这些问题：</p>
+<p>代码规模庞大，导致编译时间过长，开发、打包速度越来越慢<br>项目文件越来越多，导致查找相关文件变得越来越困难<br>某一个业务的小改动，导致整个项目的打包和部署<br>不能支持多个技术栈，也不利于多个团队共同维护开发</p>
+<p>为什么需要微前端<br>互不影响，升级简单。</p>
+<p>可以很方便的复用已有的功能模块，避免重复开发。</p>
+<p>几种常见的微前端方法<br>qiankun<br>蚂蚁金融研发，基于 single-spa，有基座</p>
+<p>EMP<br>YY PC端的技术方案，基于webpack5 Module Federation，俗称联邦模块，无基座</p>
+<p>网易云<br>方案很简单，有基座，子项目共享基座的vue实例，router与vuex也抽离到基座管理，vue router vuex实例都在基座，各个子项目得main.js是连接基座与子项目得桥梁</p>
+<p>qiankun<br>qiankun基座代码架构很庞大，也无法完全做到状态隔离，使用方式通过使用乾坤的方法注册子应用，项目迁移时改动较小</p>
+<p>特点：庞大，无法完全应用隔离，改动小</p>
+<p>EMP<br>使用的webpack5新特性联邦模块，无基座，是一个典型的去中心应用，需要在每一个子项目写一个配置文件</p>
+<p>特点：联邦模块，去中心应用</p>
+<p>网易云方案的总结</p>
+<p>主项目：用于管理子项目的路由切换、注册子项目的路由和全局 Store 层、提供全局库和方法<br>子项目：用于开发子业务线业务代码，一个子项目对应一个子业务线<br>主项目的 html 要访问子项目里的编译后的 js / css 等资源，需要进行代理转发<br>主项目 router.js 文件中定义了在 vue-router 的 beforeEach 钩子去拦截路由，<br>并根据即将跳转的路由分析出需要哪个子项目，然后去异步加载对应子项目入口文件</p>
+<p>子项目的入口文件 main.js 仅需要将子项目的 routes 与 Store暴露给主项目</p>
+<p>基座有批​量启动命令的功能</p>
+<p>常见问题<br>1）微前端与NPM对比</p>
+<p>2）微前端与多页面片对比</p>
+<p>3）子项目的页面权限校验必须在主项目中进行</p>
+<p>4）主项目的 html 如何访问子项目里的编译后的 js / css 等资源</p>
+<p>5）如果子项目代码更新后，除了打包部署子项目之外，还需要打包部署主项目吗？</p>
+<p>6）子项目入口文件 main.js 不使用 chunkhash 的话，如何防止该文件始终被缓存呢？</p>
+<p>7）公共组件如何复用</p>
+<p>8）如何合并各个项目</p>
+<p>一，对比NPM</p>
+<p>更新npm包版本<br>更新A管理系统应用的npm包版本<br>发布部署A管理系统应用<br>对B和C管理系统应用循环2和3步骤</p>
+<p>微前端一个闪亮点，就是可以做到一键更新。如下图</p>
+<p>二，与多页面片对比</p>
+<p>多页面片会将所有依赖项（node_modules）中都打包，所有项目都公用依赖</p>
+<p>三，页面权限校验必须在主项目中进行</p>
+<p>因为主项目是路由控制器，router实例是在主项目中创建的</p>
+<p>四，主项目的 html 如何访问子项目里的编译后的 js / css 等资源</p>
+<p>如果是本地开发时，可以通过 webpack 提供的 proxy，例如：<br>const PROXY = {<br>  ‘/app-a/‘: {<br>    target: ‘<a href="http://localhost:10241/&#39;" target="_blank" rel="noopener">http://localhost:10241/&#39;</a><br>  }<br>};<br>主项目和子项目放在一个文件夹中按照相对路径引用</p>
+<p>五，子项目代码更新后，是否还需要部署主项目</p>
+<p>不需要，项目关联只有main.js，main.js是不需要打包hash值</p>
+<p>六，main.js没有hash值，如何配置缓存</p>
+<p>与max商量了，见main.js打包到特定的目录，例如 nocache/main.js</p>
+<p>七，公共组件如何复用</p>
+<p>公共组件必须抽离到主项目，这样才能项目启动的时候就申明</p>
+<p>八，如何合并目前已有的各个spa项目</p>
+<p>这套方案无法实现，网易云方案是拆分巨无霸项目，单一页面片，单一vue router实例，且只支持一个base配置</p>
+<p>优缺点<br>优点</p>
+<p>子项目可单独打包、单独部署上线，提升了开发和打包的速度<br>子项目之间开发互相独立，互不影响，可在不同仓库进行维护，减少的单个项目的规模<br>保持单页应用的体验，子项目之间切换不刷新<br>改造成本低，对现有项目侵入度较低，业务线迁移成本也较低<br>保证整体项目统一一个技术栈<br>缺点：</p>
+<p>主项目和子项目需要共用一个 Vue 实例，所以无法做到某个子项目单独使用最新版 Vue（例如 Vue3）或者 React</p>
+<p>网易云原创作者教程：<a href="https://juejin.cn/post/6844904079441805326" target="_blank" rel="noopener">https://juejin.cn/post/6844904079441805326</a></p>
+<p>github仓库：<a href="https://github.com/micro-frontends-vue/async-routes" target="_blank" rel="noopener">https://github.com/micro-frontends-vue/async-routes</a></p>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
